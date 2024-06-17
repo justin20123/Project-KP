@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "sass": "^1.77.5",
+    "sass-loader": "^14.2.1"
+  }
+}
