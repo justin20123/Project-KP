@@ -15,7 +15,11 @@ class CreatePengajarTable extends Migration
     {
         Schema::create('pengajar', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('nama', 30);
+            $table->string('alamat', 45);
+            $table->string('email', 30)->unique();
+            $table->integer('umur')->default(0);
+            $table->date('tanggal_lahir');
         });
     }
 

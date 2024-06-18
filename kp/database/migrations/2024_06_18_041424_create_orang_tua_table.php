@@ -15,7 +15,9 @@ class CreateOrangTuaTable extends Migration
     {
         Schema::create('orang_tua', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('nama',45);
+            $table->unsignedBigInteger('peserta_nomor');
+            $table->foreign('peserta_nomor')->references('nomor')->on('peserta');
         });
     }
 
@@ -26,6 +28,13 @@ class CreateOrangTuaTable extends Migration
      */
     public function down()
     {
+        Schema::table('orang_tua', function (Blueprint $table) {
+            //
+            $table->dropForeign(['peserta_nomor']);
+
+            //Hapus kolom
+            $table->dropColumn('peserta_nomor');
+        });
         Schema::dropIfExists('orang_tua');
     }
 }
