@@ -15,7 +15,12 @@ class CreatePelatihanTable extends Migration
     {
         Schema::create('pelatihan', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string("nama",45);
+
+            $table->unsignedBigInteger('pengajar_id');
+            $table->foreign('pengajar_id')->references('id')->on('pengajar');
+
+            $table->string("jadwal_pelatihan",20);
         });
     }
 
@@ -26,6 +31,13 @@ class CreatePelatihanTable extends Migration
      */
     public function down()
     {
+        Schema::table('pelatihan', function (Blueprint $table) {
+            //
+            $table->dropForeign(['pengajar_id']);
+
+            //Hapus kolom
+            $table->dropColumn('pengajar_id');
+        });
         Schema::dropIfExists('pelatihan');
     }
 }
