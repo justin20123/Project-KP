@@ -1,0 +1,2 @@
+Migration: php artisan migrate
+Seeding: php artisan db:seed
