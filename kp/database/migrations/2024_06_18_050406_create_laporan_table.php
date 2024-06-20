@@ -17,6 +17,7 @@ class CreateLaporanTable extends Migration
 
             $table->integer('nilai')->default(0);
             $table->string('evaluasi', 200);
+            $table->softDeletes();
         });
     }
 

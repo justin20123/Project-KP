@@ -43,6 +43,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        echo "ss";
         if ($user->hasRole('pengajar')) {
             return redirect()->route('pengajar.dashboard.index');
         } elseif ($user->hasRole('admin')) {

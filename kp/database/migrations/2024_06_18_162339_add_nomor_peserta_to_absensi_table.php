@@ -15,7 +15,7 @@ class AddNomorPesertaToAbsensiTable extends Migration
     {
         Schema::table('absensi', function (Blueprint $table) {
             $table->string('peserta_nomor',8);
-            $table->foreign('peserta_nomor')->references('nomor')->on('peserta');
+            $table->foreign('peserta_nomor')->references('nomor')->on('users');
         });
     }
 

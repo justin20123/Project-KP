@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIdpengajarToPelatihanTable extends Migration
+class AddPengajarNomorToPelatihanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddIdpengajarToPelatihanTable extends Migration
     public function up()
     {
         Schema::table('pelatihan', function (Blueprint $table) {
-            $table->unsignedBigInteger('idpengajar');
-            $table->foreign('idpengajar')->references('id')->on('pelatihan');
+            $table->string('pengajar_nomor',8);
+            $table->foreign('pengajar_nomor')->references('nomor')->on('users');
         });
     }
 
@@ -27,8 +27,8 @@ class AddIdpengajarToPelatihanTable extends Migration
     public function down()
     {
         Schema::table('pelatihan', function (Blueprint $table) {
-            $table->dropForeign(['idpengajar']);
-            $table->dropColumn('idpengajar');
+            $table->dropForeign(['pengajar_nomor']);
+            $table->dropColumn('pengajar_nomor');
         });
     }
 }

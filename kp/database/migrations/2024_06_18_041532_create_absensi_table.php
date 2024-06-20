@@ -22,7 +22,7 @@ class CreateAbsensiTable extends Migration
             $table->string("waktu_pertemuan",11);
             $table->string("waktu_absensi",45);
 
-            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class Users extends Authenticatable
 {
     use HasFactory, Notifiable;
     use SoftDeletes;
@@ -50,18 +50,19 @@ class User extends Authenticatable
     }
 
     //one on one relation with staff
+    public function admin()
+    {
+        return $this->hasOne(Admin::class);
+    }
+    
     public function pengajar()
     {
         return $this->hasOne(Pengajar::class);
     }
 
+
     public function peserta()
     {
         return $this->hasOne(Peserta::class);
-    }
-    
-    public function admin()
-    {
-        return $this->hasOne(Admin::class);
     }
 }

@@ -18,8 +18,8 @@ class Admin extends Model
     protected $table = 'admins';
 
     //one on one relation with user
-    public function user()
+    public function pengurus()
     {
-        return $this->belongsTo(User::class)->withTrashed();
+        return $this->belongsTo(Users::class)->withTrashed();
     }
 }

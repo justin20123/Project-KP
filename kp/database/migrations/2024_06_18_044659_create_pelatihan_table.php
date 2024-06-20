@@ -19,6 +19,7 @@ class CreatePelatihanTable extends Migration
 
 
             $table->string("jadwal_pelatihan",20);
+            $table->softDeletes();
         });
     }
 

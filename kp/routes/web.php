@@ -20,8 +20,8 @@ Auth::routes();
 
 Route::get('/', function () {
     // return view('welcome');
-    $user = Auth::user();
-    if ($user) {
+    $admin = Auth::admin();
+    if ($admin) {
         return redirect()->route('owner.dashboard.index');
 
     } else {

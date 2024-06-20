@@ -20,6 +20,6 @@ class Pengajar extends Model
     //one on one relation with user
     public function pengajar()
     {
-        return $this->belongsTo(Pengajar::class)->withTrashed();
+        return $this->belongsTo(Users::class)->withTrashed();
     }
 }

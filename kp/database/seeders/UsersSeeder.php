@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PesertaSeeder extends Seeder
+class UsersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,11 +17,10 @@ class PesertaSeeder extends Seeder
         $nomor = [
             "01010001",
             "01010002",
-            "01020001",
-            "01020002",
-            "02010001"
+            "02010001",
+            "02020001",
+            "03010001"
         ];
-        
         $password = [
             "12345678",
             "12345678",
@@ -30,6 +29,7 @@ class PesertaSeeder extends Seeder
             "12345678"
         ];
 
+
         $nama = [
             "Yanta",
             "Yanti",
@@ -37,9 +37,7 @@ class PesertaSeeder extends Seeder
             "Yante",
             "Yanto"
         ];
-
         
-
         $alamat = [
             "Jl. Merdeka No. 9, Jakarta",
             "Jl. Sudirman No. 15, Bandung",
@@ -64,10 +62,17 @@ class PesertaSeeder extends Seeder
             "1994-01-01",
             "1999-01-01"
         ];
+        $role = [
+            "peserta",
+            "peserta",
+            "pengajar",
+            "pengajar",
+            "admin",
+        ];
 
 
         for ($i = 0; $i < 4; $i++) {
-            DB::table('peserta')->insert([
+            DB::table('users')->insert([
                 'nomor' => $nomor[$i],
                 'nama' => $nama[$i],
                 'password' => $password[$i],
@@ -75,6 +80,7 @@ class PesertaSeeder extends Seeder
                 'email' => $email[$i],
                 'umur' => $umur[$i],
                 'tanggal_lahir' => $tanggal_lahir[$i],
+                'role' => $role[$i],
             ]);
         }
     }
