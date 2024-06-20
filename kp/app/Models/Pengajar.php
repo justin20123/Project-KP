@@ -18,8 +18,8 @@ class Pengajar extends Model
     protected $table = 'pengajars';
 
     //one on one relation with user
-    public function user()
+    public function pengajar()
     {
-        return $this->belongsTo(User::class)->withTrashed();
+        return $this->belongsTo(Pengajar::class)->withTrashed();
     }
 }

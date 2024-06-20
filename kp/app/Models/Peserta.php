@@ -20,6 +20,6 @@ class Peserta extends Model
     //one on one relation with user
     public function user()
     {
-        return $this->belongsTo(User::class)->withTrashed();
+        return $this->belongsTo(Peserta::class)->withTrashed();
     }
 }

@@ -15,6 +15,7 @@ class CreatePesertaTable extends Migration
     {
         Schema::create('peserta', function (Blueprint $table) {
             $table->string('nomor', 8)->unique()->primary();
+            $table->string('password', 225);
             $table->string('nama', 30);
             $table->string('alamat', 45);
             $table->string('email', 30)->unique();

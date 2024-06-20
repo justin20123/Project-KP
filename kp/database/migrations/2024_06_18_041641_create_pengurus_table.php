@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePengajarTable extends Migration
+class CreatePengurusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreatePengajarTable extends Migration
      */
     public function up()
     {
-        Schema::create('pengajar', function (Blueprint $table) {
+        Schema::create('pengurus', function (Blueprint $table) {
             $table->id();
+            $table->string('password', 225);
             $table->string('nama', 30);
             $table->string('alamat', 45);
             $table->string('email', 30)->unique();
             $table->integer('umur')->default(0);
             $table->date('tanggal_lahir');
+            $table->enum('role', ["pengajar", "admin"])->default("pengajar");
         });
     }
 
@@ -30,6 +32,6 @@ class CreatePengajarTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pengajar');
+        Schema::dropIfExists('pengurus');
     }
 }
