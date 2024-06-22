@@ -14,8 +14,8 @@ class AddNomorPesertaToAbsensiTable extends Migration
     public function up()
     {
         Schema::table('absensi', function (Blueprint $table) {
-            $table->string('peserta_nomor',8);
-            $table->foreign('peserta_nomor')->references('nomor')->on('users');
+            $table->string('nomor_peserta',8);
+            $table->foreign('nomor_peserta')->references('nomor')->on('users');
         });
     }
 
@@ -27,8 +27,8 @@ class AddNomorPesertaToAbsensiTable extends Migration
     public function down()
     {
         Schema::table('absensi', function (Blueprint $table) {
-            $table->dropForeign(['peserta_nomor']);
-            $table->dropColumn('peserta_nomor');
+            $table->dropForeign(['nomor_peserta']);
+            $table->dropColumn('nomor_peserta');
         });
     }
 }

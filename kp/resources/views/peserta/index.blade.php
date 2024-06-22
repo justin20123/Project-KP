@@ -61,9 +61,6 @@
                                                 <th>Email</th>
                                                 <th>No Handphone</th>
                                                 <th>Alamat</th>
-                                                @if (Auth::user()->hasRole('owner'))
-                                                    <th>Action</th>
-                                                @endif
                                             </tr>
                                             </thead>
                                             <tbody class="table-border-bottom-0">

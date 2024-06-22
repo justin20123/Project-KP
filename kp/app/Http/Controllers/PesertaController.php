@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Peserta;
+use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -179,10 +180,10 @@ class PesertaController extends Controller
         $validatedData['password'] = Hash::make($validatedData['password']);
 
         // dd($validatedData);
-        $user = User::create($validatedData);
+        $user = Users::create($validatedData);
 
         //update role
-        $changeToPeserta = User::where('email', $validatedData['email'])->first();
+        $changeToPeserta = Users::where('email', $validatedData['email'])->first();
         $changeToPeserta->role = 'peserta';
         $changeToPeserta->save();
 
@@ -218,7 +219,7 @@ class PesertaController extends Controller
             'birthdate' => 'required',
         ]);
 
-        $validatedData['user_id'] = User::latest()->value('id');
+        $validatedData['user_id'] = Users::latest()->value('id');
 
         // dd($validatedData);
         Peserta::create($validatedData);

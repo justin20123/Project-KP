@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddNomorPesertaToOrangTuaTable extends Migration
+class AddNomorPesertaToKelasDiikutiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddNomorPesertaToOrangTuaTable extends Migration
      */
     public function up()
     {
-        Schema::table('orang_tua', function (Blueprint $table) {
+        Schema::table('kelas_diikuti', function (Blueprint $table) {
             $table->string('nomor_peserta',8);
             $table->foreign('nomor_peserta')->references('nomor')->on('users');
         });
@@ -26,7 +26,7 @@ class AddNomorPesertaToOrangTuaTable extends Migration
      */
     public function down()
     {
-        Schema::table('orang_tua', function (Blueprint $table) {
+        Schema::table('kelas_diikuti', function (Blueprint $table) {
             $table->dropForeign(['nomor_peserta']);
             $table->dropColumn('nomor_peserta');
         });

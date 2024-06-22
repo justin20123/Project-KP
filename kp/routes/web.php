@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PengajarController;
-use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,9 +20,11 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::post('pelatihan', [PelatihanController::class,])->name('index');
+
 //admin
-Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'owner'], function () {
-    Route::resource('/dashboard', AdminController::class)->names('owner.dashboard')->only(['index']);
+Route::group(['middleware' => ['auth', 'role:admin']], function () {
+    Route::resource('/dashboard', AdminController::class)->names('admin.dashboard')->only(['index']);
 
     //register admin
     Route::get('/register', [AdminController::class, 'formRegister'])->name('admin.admin.register');
@@ -33,6 +35,10 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'owner'], func
     //register peserta
     Route::get('/register', [PesertaController::class, 'formRegister'])->name('pengajar.pengajar.register');
     Route::post('/registeraccount', [PesertaController::class, 'register'])->name('pengajar.pengajar.registeraccount');
+});
+
+Route::group(['middleware' => ['auth', 'role:peserta']], function () {
+    Route::resource('/dashboard', PelatihanController::class)->names('pelatihan.dashboard')->only(['index']);
 });
 
 Route::get('/', function () {

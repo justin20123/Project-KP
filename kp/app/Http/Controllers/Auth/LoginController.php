@@ -42,22 +42,31 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        echo "ss";
-        if ($user->hasRole('pengajar')) {
-            return redirect()->route('pengajar.dashboard.index');
-        } elseif ($user->hasRole('admin')) {
+        if ($user->hasRole('admin')) {
             return redirect()->route('admin.dashboard.index');
+        } elseif ($user->hasRole('pengajar')) {
+            return redirect()->route('pengajar.dashboard.index');
+        } elseif ($user->hasRole('peserta')) {
+            return redirect()->route('pelatihan.dashboard.index');
         } else {
-            // dd($user);
             return redirect('/');
         }
+        // if ($role=='admin') {
+        //     return redirect()->route('admin.dashboard.index');
+        // } elseif ($role=='pengajar') {
+        //     return redirect()->route('pengajar.dashboard.index');
+        // } elseif ($role=='peserta') {
+        //     return redirect()->route('peserta.dashboard.index');
+        // } else {
+        //     return redirect('/');
+        // }
     }
 
     public function logout(Request $request)
     {
         if (Auth::check()) {
             // User is authenticated
-            if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('pengajar')) {
+            if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('pengajar')|| Auth::user()->hasRole('peserta')) {
             }
 
             // Perform logout action

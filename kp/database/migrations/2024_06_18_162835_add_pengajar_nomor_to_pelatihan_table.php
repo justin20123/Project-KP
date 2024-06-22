@@ -14,8 +14,8 @@ class AddPengajarNomorToPelatihanTable extends Migration
     public function up()
     {
         Schema::table('pelatihan', function (Blueprint $table) {
-            $table->string('pengajar_nomor',8);
-            $table->foreign('pengajar_nomor')->references('nomor')->on('users');
+            $table->string('nomor_pengajar',8);
+            $table->foreign('nomor_pengajar')->references('nomor')->on('users');
         });
     }
 
@@ -27,8 +27,8 @@ class AddPengajarNomorToPelatihanTable extends Migration
     public function down()
     {
         Schema::table('pelatihan', function (Blueprint $table) {
-            $table->dropForeign(['pengajar_nomor']);
-            $table->dropColumn('pengajar_nomor');
+            $table->dropForeign(['nomor_pengajar']);
+            $table->dropColumn('nomor_pengajar');
         });
     }
 }
