@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::post('pelatihan', [PelatihanController::class,])->name('index');
+Route::get('/pelatihan', [PelatihanController::class, 'index'])->name('pelatihan.index');
 
 //admin
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
@@ -51,7 +51,7 @@ Route::get('/', function () {
         return redirect()->route('pengajar.dashboard.index');
     } 
     else if ($user && $user->hasRole('peserta')) {
-        return redirect()->route('peserta.dashboard.index');
+        return redirect()->route('pelatihan.index');
     } 
     else {
         return redirect()->route('login');
@@ -59,3 +59,8 @@ Route::get('/', function () {
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/pelatihan', [PelatihanController::class, 'index'])->name('pelatihan.index');
+
+
+Auth::routes();
+

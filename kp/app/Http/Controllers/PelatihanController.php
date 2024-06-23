@@ -14,16 +14,18 @@ class PelatihanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(string $nomor_peserta)
+    public function index()
     {
-        //
+        // dd(Auth::user());
+        // $nomor_peserta = (Auth::user());
+        // dd(Auth::user());
         $pelatihans = DB::table('pelatihan')
             ->select('pelatihan.*')
             ->join("kelas_diikuti","kelas_diikuti.idpelatihan","=","pelatihan.id")
-            ->where("kelas_diikuti.nomor_peserta","=",$nomor_peserta)
+            ->where("kelas_diikuti.nomor_peserta","=","01010001")
             ->get();
 
-        return view('pelatihan.index', compact('list_pelatihan'));
+        return view('pelatihan.index', ["list_pelatihan"=>$pelatihans]);
     }
 
     /**

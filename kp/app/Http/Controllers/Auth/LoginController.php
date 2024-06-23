@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -47,26 +47,18 @@ class LoginController extends Controller
         } elseif ($user->hasRole('pengajar')) {
             return redirect()->route('pengajar.dashboard.index');
         } elseif ($user->hasRole('peserta')) {
-            return redirect()->route('pelatihan.dashboard.index');
+            return redirect()->route('pelatihan.index');
         } else {
             return redirect('/');
         }
-        // if ($role=='admin') {
-        //     return redirect()->route('admin.dashboard.index');
-        // } elseif ($role=='pengajar') {
-        //     return redirect()->route('pengajar.dashboard.index');
-        // } elseif ($role=='peserta') {
-        //     return redirect()->route('peserta.dashboard.index');
-        // } else {
-        //     return redirect('/');
-        // }
     }
 
     public function logout(Request $request)
     {
         if (Auth::check()) {
             // User is authenticated
-            if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('pengajar')|| Auth::user()->hasRole('peserta')) {
+            if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('pengajar') || Auth::user()->hasRole('peserta')) {
+                // Perform additional actions or checks specific to 'owner' or 'staff'
             }
 
             // Perform logout action
@@ -77,4 +69,5 @@ class LoginController extends Controller
 
         return redirect('/login');
     }
+    
 }

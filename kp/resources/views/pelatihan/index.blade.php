@@ -15,8 +15,6 @@
             @foreach ($list_pelatihan as $pelatihan)
             <div class="col mb-5">
                 <div class="card h-100">
-                    {{-- <img class="card-img-top" src="{{'images/'. $product->image_url}}" alt="..." /> --}}
-                    <img class="card-img-top" src="{{ asset('images/'.$product->image_url) }}" alt="..." />
                     <div class="card-body p-4">
                         <div class="text-center">
                             <h5 class="fw-bolder">{{ $pelatihan->nama }}</h5>
