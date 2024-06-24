@@ -18,12 +18,12 @@ class Kelas_diikutiSeeder extends Seeder
         $idpelatihan = [
             1,2,3,3,4,
         ];
-        $nomor_peserta = [
-            "01010001",
-            "01010001",
-            "01010002",
-            "01010002",
-            "01010002"
+        $id_peserta = [
+            01010001,
+            01010001,
+            01010002,
+            01010002,
+            01010002
         ];
 
 
@@ -32,7 +32,7 @@ class Kelas_diikutiSeeder extends Seeder
         for ($i = 0; $i < 4; $i++) {
             DB::table('kelas_diikuti')->insert([
                 'idpelatihan' => $idpelatihan[$i],
-                'nomor_peserta' =>$nomor_peserta[$i],
+                'id_peserta' =>$id_peserta[$i],
             ]);
         }
     }

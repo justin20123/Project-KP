@@ -42,6 +42,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        
         if ($user->hasRole('admin')) {
             return redirect()->route('admin.dashboard.index');
         } elseif ($user->hasRole('pengajar')) {
@@ -69,5 +70,4 @@ class LoginController extends Controller
 
         return redirect('/login');
     }
-    
 }

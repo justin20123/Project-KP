@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddNomorPesertaToOrangTuaTable extends Migration
+class AddIdPesertaToOrangTuaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddNomorPesertaToOrangTuaTable extends Migration
     public function up()
     {
         Schema::table('orang_tua', function (Blueprint $table) {
-            $table->string('nomor_peserta',8);
-            $table->foreign('nomor_peserta')->references('nomor')->on('users');
+            $table->unsignedBigInteger('id_peserta');
+            $table->foreign('id_peserta')->references('id')->on('users');
         });
     }
 
@@ -27,8 +27,8 @@ class AddNomorPesertaToOrangTuaTable extends Migration
     public function down()
     {
         Schema::table('orang_tua', function (Blueprint $table) {
-            $table->dropForeign(['nomor_peserta']);
-            $table->dropColumn('nomor_peserta');
+            $table->dropForeign(['id_peserta']);
+            $table->dropColumn('id_peserta');
         });
     }
 }

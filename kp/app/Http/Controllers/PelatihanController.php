@@ -22,7 +22,7 @@ class PelatihanController extends Controller
         $pelatihans = DB::table('pelatihan')
             ->select('pelatihan.*')
             ->join("kelas_diikuti","kelas_diikuti.idpelatihan","=","pelatihan.id")
-            ->where("kelas_diikuti.nomor_peserta","=","01010001")
+            ->where("kelas_diikuti.id_peserta","=", Auth::id())
             ->get();
 
         return view('pelatihan.index', ["list_pelatihan"=>$pelatihans]);

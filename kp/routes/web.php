@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PengajarController;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes();
+
+
 
 Route::get('/pelatihan', [PelatihanController::class, 'index'])->name('pelatihan.index');
 
@@ -43,24 +46,22 @@ Route::group(['middleware' => ['auth', 'role:peserta']], function () {
 
 Route::get('/', function () {
     // return view('welcome');
-    $user = Auth::user();
-    if ($user && $user->hasRole('admin')) {
-        return redirect()->route('admin.dashboard.index');
-    } 
-    else if ($user && $user->hasRole('pengajar')) {
-        return redirect()->route('pengajar.dashboard.index');
-    } 
-    else if ($user && $user->hasRole('peserta')) {
-        return redirect()->route('pelatihan.index');
-    } 
-    else {
-        return redirect()->route('login');
-    }
+    // $user = Auth::user();
+    // if ($user && $user->hasRole('admin')) {
+    //     return redirect()->route('admin.dashboard.index');
+    // } 
+    // else if ($user && $user->hasRole('pengajar')) {
+    //     return redirect()->route('pengajar.dashboard.index');
+    // } 
+    // else if ($user && $user->hasRole('peserta')) {
+    //     dd($user);
+    //     return redirect()->route('pelatihan.index');
+    // } 
+    // else {
+    //     return redirect()->route('login');
+    // }
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/pelatihan', [PelatihanController::class, 'index'])->name('pelatihan.index');
-
-
-Auth::routes();
 

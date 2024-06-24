@@ -32,19 +32,19 @@ class PelatihanSeeder extends Seeder
             "Rabu,09.00-12.00"
         ];
         
-        $nomor_pengajar = [
-            "020001",
-            "020001",
-            "020001",
-            "020002",
-            "020002"
+        $id_pengajar = [
+            020001,
+            020001,
+            020001,
+            020002,
+            020002
         ];
 
         for ($i = 0; $i < 4; $i++) {
             DB::table('pelatihan')->insert([
                 'nama' => $nama[$i],
                 'jadwal_pelatihan' =>$jadwal_pelatihan[$i],
-                'nomor_pengajar' => $nomor_pengajar[$i],
+                'id_pengajar' => $id_pengajar[$i],
             ]);
         }
     }

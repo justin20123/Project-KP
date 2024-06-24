@@ -9,21 +9,8 @@
         </div>
 
         <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-                Hello, {{ Auth::user()->role }}: {{ Auth::user()->name }}
-            @if(str_contains(Auth::user()->role, 'buyer'))
-            <ul class="navbar-nav flex-row align-items-center ms-auto">
-                Your Point :  <strong> {{ App\Http\Controllers\BuyerController::showPoint()}}</strong>
-                <!-- User -->
-                <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                        <div class="avatar avatar-online">
-                            <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                        </div>
-                    </a>
-                </li>
-                <!--/ User -->
-            </ul>
-            @endif
+                Hello, {{ Auth::user()->nama }}: {{ Auth::user()->role }}
+        
         </div>
     </nav>
 @endauth

@@ -19,14 +19,11 @@
                         <div class="text-center">
                             <h5 class="fw-bolder">{{ $pelatihan->nama }}</h5>
                             <h5 class="fw-bolder">{{ $pelatihan->jadwal_pelatihan }}</h5>
-                            @if(str_contains(Auth::user()->role, 'pengajar'))
-                            <button onclick="buka_absensi()" style="border: none;"><i class='bx bx-cart'></i></button>
-                            <button onclick="lihat_absensi()" style="border: none;"><i class='bx bx-cart'></i></button>
-                            @endif
-                            @if(str_contains(Auth::user()->role, 'peserta'))
-                            <button onclick="do_absensi()" style="border: none;"><i class='bx bx-cart'></i></button>
-                            <button onclick="lihat_absensi()" style="border: none;"><i class='bx bx-cart'></i></button>
-                            @endif
+                            <hr class="hr" />
+                            
+                            <button onclick="do_absensi()" style="border: none; background-color:#8080FF">Absensi</button>
+                            <button onclick="lihat_absensi()" style="border: none;">Lihat kehadiran</button>
+
 
                         </div>
                     </div>
@@ -37,21 +34,8 @@
     </div>
 </section>
 
-section('script')
+@section('script')
 <script>
-    // function lihat_absensi(id) {
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: "{{ route('pelatihan.lihat_absensi') }}",
-    //         data: {
-    //             '_token': '<?php echo csrf_token(); ?>',
-    //             'id': id,
-    //         },
-    //         success: function (data) {
-    //             if (data['status'] == 'success') {
-    //                 window.location.reload(true);
-    //             }
-    //         }
-    //     });
-    // }
+
 </script>
+@endsection
