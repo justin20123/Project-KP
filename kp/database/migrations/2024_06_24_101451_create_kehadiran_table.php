@@ -15,6 +15,7 @@ class CreateKehadiranTable extends Migration
     {
         Schema::create('kehadiran', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('nomor_pertemuan');
             $table->enum('status', ["hadir", "alfa", "sakit", "ijin"]);
             $table->timestamps();
         });

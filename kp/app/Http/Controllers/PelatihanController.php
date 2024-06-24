@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pelatihan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class PelatihanController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,16 +22,21 @@ class PelatihanController extends Controller
      */
     public function index()
     {
-        // dd(Auth::user());
-        // $nomor_peserta = (Auth::user());
-        // dd(Auth::user());
-        $pelatihans = DB::table('pelatihan')
-            ->select('pelatihan.*')
-            ->join("kelas_diikuti","kelas_diikuti.idpelatihan","=","pelatihan.id")
-            ->where("kelas_diikuti.id_peserta","=", Auth::id())
-            ->get();
+        if (Auth::user()->role == "pengajar") {
+            $pelatihans = DB::table('pelatihan')
+                ->select('pelatihan.*')
+                ->where("id_pengajar", "=", Auth::id())
+                ->get();
+        } else if (Auth::user()->role == "pengajar") {
+            $pelatihans = DB::table('pelatihan')
+                ->select('pelatihan.*')
+                ->join("kelas_diikuti", "kelas_diikuti.idpelatihan", "=", "pelatihan.id")
+                ->where("kelas_diikuti.id_peserta", "=", Auth::id())
+                ->get();
+        }
 
-        return view('pelatihan.index', ["list_pelatihan"=>$pelatihans]);
+
+        return view('pelatihan.index', ["list_pelatihan" => $pelatihans]);
     }
 
     /**
@@ -94,21 +105,22 @@ class PelatihanController extends Controller
         //
     }
 
-    public function lihat_absensi(Request $request, string $role, string $nomor_peserta=null, int $idpelatihan)
+    public function lihat_absensi(Request $request, string $role, string $nomor_peserta = null, int $idpelatihan)
     {
-        if($role == "peserta"){
+        if ($role == "peserta") {
             $pelatihans = DB::table('absensi')
-            ->select('absensi.*')
-            ->where("absensi.nomor_peserta","=",$nomor_peserta)
-            ->where("absensi.idpelatihan","=",$idpelatihan)
-            ->get();     
-        }
-        else{
+                ->select('absensi.*')
+                ->where("absensi.nomor_peserta", "=", $nomor_peserta)
+                ->where("absensi.idpelatihan", "=", $idpelatihan)
+                ->get();
+        } else {
             $pelatihans = DB::table('absensi')
-            ->select('absensi.*')
-            ->where("absensi.idpelatihan","=",$idpelatihan)
-            ->get();
+                ->select('absensi.*')
+                ->where("absensi.idpelatihan", "=", $idpelatihan)
+                ->get();
         }
         return view('absensi.index', compact('list_absensi'));
     }
+
+    
 }

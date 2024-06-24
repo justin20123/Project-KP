@@ -16,9 +16,8 @@ class CreatePelatihanTable extends Migration
         Schema::create('pelatihan', function (Blueprint $table) {
             $table->id();
             $table->string("nama",45);
-
-
             $table->string("jadwal_pelatihan",20);
+            $table->integer('nomor_angkatan')->default(0);
             $table->softDeletes();
         });
     }

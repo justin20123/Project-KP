@@ -1,7 +1,27 @@
 @extends('layouts.sneat')
 
 @section('content')
-<div class="portlet-title">
+<div class="modal fade" id="modal-buka-absensi" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true"></button>
+                                <h4 class="modal-title">Modal update 1</h4>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" id="buka_absensi">Save changes</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
     <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
         List Pelatihan
     </div>
@@ -21,8 +41,17 @@
                             <h5 class="fw-bolder">{{ $pelatihan->jadwal_pelatihan }}</h5>
                             <hr class="hr" />
                             
-                            <button onclick="do_absensi()" style="border: none; background-color:#8080FF">Absensi</button>
-                            <button onclick="lihat_absensi()" style="border: none;">Lihat kehadiran</button>
+                            @if(str_contains(Auth::user()->role, 'pengajar'))
+                            <button onclick="formBukaAbsensi({{ $pelatihan->id }})" style="border: none; background-color:#8080FF">Buka absensi</button>
+                            <button onclick="lihat_absensi('peserta')" style="border: none;">Lihat absensi</button>
+                            <hr class="hr" />
+
+                            <button onclick="tutup_absensi()" style="border: none;background-color:#ff0103 ">Tutup absensi</button>
+                            @endif
+                            @if(str_contains(Auth::user()->role, 'peserta'))
+                            <button onclick="do_absensi()" style="border: none; background-color:#8080FF">Absen</button>
+                            <button onclick="lihat_absensi('peserta')" style="border: none;">Lihat kehadiran</button>
+                            @endif
 
 
                         </div>
@@ -36,6 +65,49 @@
 
 @section('script')
 <script>
+    jQuery(document).ready(function() {
+        App.init();
+        $("#buka_absensi").on("click", function() {
+                $("#form-buka-absensi").submit();
+            });
 
+            
+    })
+    function formBukaAbsensi(id) {
+        $.ajax({
+            type:"POST",
+            url:{{route('absensi.bukaAbsensiForm')}}
+            data:{
+                "_token":"<?php echo csrf_token() ?>",
+                "idpelatihan":id
+            },
+            success:function(data){
+                $("#modal-buka-absensi.modal-body").html(data);
+                $("#modal-buka-absensi").modal("show");
+            }
+        })
+            $.get("{{ url('buka_absensi') }}/" + id,
+                function(data) {
+                    $("#modal-buka-absensi .modal-body").html(data);
+                    $("#modal-buka-absensi").modal("show");
+                },
+            );
+        }
+ function buka_absensi(nomor_angkatan, idpelatihan) {
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('absensi.create') }}",
+            data: {
+                '_token': '<?php echo csrf_token(); ?>',
+                'nomor_angkatan': nomor_angkatan,
+                'idpelatihan': idpelatihan,
+            },
+            success: function (data) {
+                if (data['status'] == 'success') {
+                    window.location.reload(true);
+                }
+            }
+        });
+    }
 </script>
 @endsection

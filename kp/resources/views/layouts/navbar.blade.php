@@ -9,7 +9,7 @@
         </div>
 
         <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-                Hello, {{ Auth::user()->nama }}: {{ Auth::user()->role }}
+                Hello, {{ Auth::user()->nama }}: ({{ Auth::user()->role }})
         
         </div>
     </nav>
