@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Absensi;
 use App\Models\Pelatihan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AbsensiController extends Controller
 {
@@ -41,25 +43,26 @@ class AbsensiController extends Controller
 
     public function store(Request $request)
     {
+        $curr_date = Carbon::date("Y-m-d")->toDateString();
+
         $absensi = new Absensi();
         $absensi->nomor_angkatan = $request->post("nomor_angkatan");
-        $absensi->status = $request->post("status");
-        $absensi->tanggal_absensi = $request->post("tanggal_absensi");
+        $absensi->jenis_pertemuan = $request->post("jenis_pertemuan");
         $absensi->id_pelatihan = $request->post("id_pelatihan");
 
         $cek_tanggal = DB::table('absensi')
-            ->select('absensi.*')
-            ->where("absensi.idpelatihan", "=", $data["idpelatihan"])
-            ->where("absensi.tanggal_absensi", "=", $data["tanggal_absensi"])
+            ->select('absensi.*')->first()
+            ->where("absensi.idpelatihan", "=", $absensi->id_pelatihan)
+            ->where("absensi.tanggal_absensi", "=", $curr_date)
             ->get();
 
 
-        if ($cek_tanggal->tanggal_absensi != Carbon::date("Y-m-d")->toDateString()) { //kalau hari ini belum buka presensi
+        if ($cek_tanggal->count() == 0) { //kalau hari ini belum buka presensi
             $pertemuan_sekarang = "";
             $pertemuan_sebelumnya = DB::table('absensi')
                 ->select('absensi.max("nomor_pertemuan")')
-                ->where("absensi.idpelatihan", "=", $data["idpelatihan"])
-                ->where("absensi.nomor_angkatan", "=", $data["nomor_angkatan"])
+                ->where("absensi.idpelatihan", "=", $absensi->id_pelatihan)
+                ->where("absensi.nomor_angkatan", "=", $absensi->nomor_angkatan)
                 ->get();
             if ($pertemuan_sebelumnya->count == 0) {
                 $pertemuan_sekarang = 1;
@@ -67,14 +70,15 @@ class AbsensiController extends Controller
             else{
                 $pertemuan_sekarang = $pertemuan_sebelumnya->nomor_pertemuan + 1;
             }
-            return Pelatihan::create([
-                'nomor_angkatan' => $data["nomor_angkatan"],
+            Absensi::create([
+                'nomor_angkatan' => $absensi->nomor_angkatan,
                 'nomor_pertemuan' => $pertemuan_sekarang,
                 'status' => "dibuka",
-                'jenis_pertemuan' => $data['jenis_pertemuan'],
-                'tanggal_absensi' => Carbon::date("Y-m-d")->toDateString(),
-                'idpelatihan' => $data['idpelatihan'],
+                'jenis_pertemuan' => $absensi->jenis_pertemuan,
+                'tanggal_absensi' => $curr_date,
+                'idpelatihan' => $absensi->id_pelatihan,
             ]);
+            return $message = "Absensi berhasil dibuka";
         }
     }
 

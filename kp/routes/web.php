@@ -28,7 +28,7 @@ Route::get('/pelatihan', [PelatihanController::class, 'index'])->name('pelatihan
 
 Route::resource('absensi', AbsensiController::class);
 Route::get("buka_absensi/{pelatihan}", [AbsensiController::class, "bukaAbsensi"]);
-
+Route::post('buka_absensi/{pelatihan}', [AbsensiController::class, "bukaAbsensi"])->name("absensi.bukaAbsensiForm");
 
 //admin
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
@@ -64,5 +64,4 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/pelatihan', [PelatihanController::class, 'index'])->name('pelatihan.index');
-Route::post('buka_absensi/{pelatihan}', [AbsensiController::class, "bukaAbsensi"])->name("absensi.bukaAbsensiForm");
 

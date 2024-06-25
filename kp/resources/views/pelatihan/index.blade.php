@@ -1,20 +1,30 @@
 @extends('layouts.sneat')
 
 @section('content')
-<div class="modal fade" id="modal-buka-absensi" tabindex="-1" role="dialog"
-                    aria-labelledby="myModalLabel" aria-hidden="true">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<div class="modal fade" id="modal-buka-absen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"
-                                    aria-hidden="true"></button>
-                                <h4 class="modal-title">Modal update 1</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                <h4 class="modal-title">Buka Absensi</h4>
                             </div>
                             <div class="modal-body">
-
+                                <form action="{{ route('absensi.store') }}" class="col col-6"
+                                    method="post">
+                                    @csrf
+                                    <input type="hidden" name="nomor_angkatan" id="">
+                                    <select name="jenis_pertemuan">
+                                        <option value="reguler">Reguler</option>
+                                        <option value="pengganti">Pengganti</option>
+                                    </select>
+                                    <input type="hidden" name="id_pelatihan" id="">
+                                </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-success" id="buka_absensi">Save changes</button>
+                                <button type="submit" class="btn btn-success" id="buka-absensi">Add</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
                         </div>
@@ -42,7 +52,8 @@
                             <hr class="hr" />
                             
                             @if(str_contains(Auth::user()->role, 'pengajar'))
-                            <button onclick="formBukaAbsensi({{ $pelatihan->id }})" style="border: none; background-color:#8080FF">Buka absensi</button>
+                            <button id='btn-buka-absen' data-toggle="modal" style="border: none;background-color:#74a7ff"  role="button">Buka Absensi</button>
+                            {{-- <button onclick="formBukaAbsensi({{ $pelatihan->id }})" >Buka absensi</button> --}}
                             <button onclick="lihat_absensi('peserta')" style="border: none;">Lihat absensi</button>
                             <hr class="hr" />
 
@@ -65,27 +76,22 @@
 
 @section('script')
 <script>
-    jQuery(document).ready(function() {
+    import({{asset( assets/jQuery)}}).then(()=>{
+        jQuery(document).ready(function() {
         App.init();
+        $("#btn-buka-absen").on("click", function() {
+                $("#form-buka-absensi").modal("show");
+            });
         $("#buka_absensi").on("click", function() {
                 $("#form-buka-absensi").submit();
             });
 
             
     })
+    })
+    
     function formBukaAbsensi(id) {
-        $.ajax({
-            type:"POST",
-            url:{{route('absensi.bukaAbsensiForm')}}
-            data:{
-                "_token":"<?php echo csrf_token() ?>",
-                "idpelatihan":id
-            },
-            success:function(data){
-                $("#modal-buka-absensi.modal-body").html(data);
-                $("#modal-buka-absensi").modal("show");
-            }
-        })
+
             $.get("{{ url('buka_absensi') }}/" + id,
                 function(data) {
                     $("#modal-buka-absensi .modal-body").html(data);
@@ -105,7 +111,7 @@
             success: function (data) {
                 if (data['status'] == 'success') {
                     window.location.reload(true);
-                }
+                }   
             }
         });
     }
