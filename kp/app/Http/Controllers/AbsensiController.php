@@ -43,7 +43,8 @@ class AbsensiController extends Controller
 
     public function store(Request $request)
     {
-        $curr_date = Carbon::date("Y-m-d")->toDateString();
+        
+        $curr_date = Carbon::now()->toDateString(); 
 
         $absensi = new Absensi();
         $absensi->nomor_angkatan = $request->post("nomor_angkatan");
@@ -51,7 +52,7 @@ class AbsensiController extends Controller
         $absensi->id_pelatihan = $request->post("id_pelatihan");
 
         $cek_tanggal = DB::table('absensi')
-            ->select('absensi.*')->first()
+            ->select('absensi.*')
             ->where("absensi.idpelatihan", "=", $absensi->id_pelatihan)
             ->where("absensi.tanggal_absensi", "=", $curr_date)
             ->get();
@@ -60,11 +61,11 @@ class AbsensiController extends Controller
         if ($cek_tanggal->count() == 0) { //kalau hari ini belum buka presensi
             $pertemuan_sekarang = "";
             $pertemuan_sebelumnya = DB::table('absensi')
-                ->select('absensi.max("nomor_pertemuan")')
+                ->select('absensi.nomor_pertemuan')
                 ->where("absensi.idpelatihan", "=", $absensi->id_pelatihan)
                 ->where("absensi.nomor_angkatan", "=", $absensi->nomor_angkatan)
-                ->get();
-            if ($pertemuan_sebelumnya->count == 0) {
+                ->get()->first();
+            if ($pertemuan_sebelumnya == null) {
                 $pertemuan_sekarang = 1;
             }
             else{
@@ -78,7 +79,15 @@ class AbsensiController extends Controller
                 'tanggal_absensi' => $curr_date,
                 'idpelatihan' => $absensi->id_pelatihan,
             ]);
-            return $message = "Absensi berhasil dibuka";
+            $nama_pelatihan = DB::table('pelatihan')
+            ->select('nama')
+            ->where('id','=',$absensi->id_pelatihan)
+            ->get();
+            $message = "Absensi " . $nama_pelatihan[0]->nama . " berhasil dibuka";
+            return redirect()->route("pelatihan.index")->with("message", $message);
+        }
+        else{
+            return redirect()->route("pelatihan.index")->with("error","Anda sudah membuka presensi hari ini");
         }
     }
 

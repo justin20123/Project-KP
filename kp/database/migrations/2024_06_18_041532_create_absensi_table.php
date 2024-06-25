@@ -15,12 +15,12 @@ class CreateAbsensiTable extends Migration
     {
         Schema::create('absensi', function (Blueprint $table) {
             $table->id();
-            $table->integer('nomor_angkatan')->default(0); 
-            $table->integer('nomor_pertemuan')->default(0);
+            $table->integer('nomor_angkatan'); 
+            $table->integer('nomor_pertemuan');
             $table->enum('status', ["dibuka", "ditutup"]);
             $table->enum('jenis_pertemuan', ["pengganti", "reguler"]);
             $table->string("tanggal_absensi",10);
-
+            $table->timestamps();
             $table->softDeletes();
         });
     }

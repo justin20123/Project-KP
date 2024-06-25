@@ -101,7 +101,6 @@
             <div class="container-xxl flex-grow-1 container-p-y">
                 <div class="card" style="padding: 20px;">
                     @include('layouts.navbar')
-                    @include('layouts.total-card')
                     @yield('content')
                 </div>
             </div>
