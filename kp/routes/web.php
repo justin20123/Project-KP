@@ -25,10 +25,9 @@ Auth::routes();
 
 
 Route::get('/pelatihan', [PelatihanController::class, 'index'])->name('pelatihan.index');
+Route::post('/doAbsensi', [AbsensiController::class, 'doAbsensi'])->name('absensi.doAbsensi');
 
 Route::resource('absensi', AbsensiController::class);
-Route::get("buka_absensi/{pelatihan}", [AbsensiController::class, "bukaAbsensi"]);
-Route::post('buka_absensi/{pelatihan}', [AbsensiController::class, "bukaAbsensi"])->name("absensi.bukaAbsensiForm");
 
 //admin
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
@@ -47,6 +46,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
 Route::group(['middleware' => ['auth', 'role:peserta']], function () {
     Route::resource('/dashboard', PelatihanController::class)->names('pelatihan.dashboard')->only(['index']);
+    
 });
 
 Route::get('/', function () {

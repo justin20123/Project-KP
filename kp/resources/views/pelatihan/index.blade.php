@@ -2,6 +2,7 @@
 
 @section('content')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <div class="modal fade" id="modal-buka-absen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
@@ -34,12 +35,13 @@
         List Pelatihan
     </div>
 </div>
+
 @if (session('status'))
 <div class="alert alert-success">{{session('status')}}</div>
 @endif
 <section>
     @if(session("message"))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert alert-success  alert-dismissible fade show" role="alert">
                 <span aria-hidden="true">&times;</span>
               </button>
               <strong>{{ session("message") }}</strong> 
@@ -73,7 +75,7 @@
                             <button onclick="tutup_absensi()" style="border: none;background-color:#ff0103 ">Tutup absensi</button>
                             @endif
                             @if(str_contains(Auth::user()->role, 'peserta'))
-                            <button onclick="do_absensi()" style="border: none; background-color:#8080FF">Absen</button>
+                            <button onclick="do_absensi( {{ $pelatihan->id }} )" style="border: none; background-color:#8080FF">Absen</button>
                             <button onclick="lihat_absensi('peserta')" style="border: none;">Lihat kehadiran</button>
                             @endif
 
@@ -103,10 +105,21 @@
                 },
             );
         }
- function buka_absensi(nomor_angkatan, idpelatihan) {
+    function buka_absensi(nomor_angkatan, idpelatihan) {
         $("#buka-absen-nomor-angkatan").html("<input type='hidden' name='nomor_angkatan' value='"+nomor_angkatan+"'>");
         $("#modal-buka-absen").modal("show");
         $("#buka-absen-id-pelatihan").html("<input type='hidden' name='id_pelatihan' value='"+idpelatihan+"'>");
+    }
+
+    function do_absensi(id) {
+        $.ajax({
+                type: 'POST',
+                url: "{{ route('absensi.doAbsensi') }}",
+                data: {
+                    '_token': '<?php echo csrf_token(); ?>',
+                    'id': id,
+                },
+            });
     }
 </script>
 @endsection

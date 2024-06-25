@@ -19,11 +19,11 @@ class Kelas_diikutiSeeder extends Seeder
             1,2,3,3,4,
         ];
         $id_peserta = [
-            01010001,
-            01010001,
-            01010002,
-            01010002,
-            01010002
+            1,
+            1,
+            2,
+            2,
+            2
         ];
 
 

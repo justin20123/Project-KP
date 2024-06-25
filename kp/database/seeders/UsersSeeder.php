@@ -15,13 +15,7 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        $id = [
-            01010001,
-            01010002,
-            020001,
-            020002,
-            030001
-        ];
+
         $password = [
             "12345678",
             "12345678",
@@ -74,7 +68,6 @@ class UsersSeeder extends Seeder
 
         for ($i = 0; $i < 4; $i++) {
             DB::table('users')->insert([
-                'id' => $id[$i],
                 'nama' => $nama[$i],
                 'password' => Hash::make($password[$i]),
                 'alamat' => $alamat[$i],

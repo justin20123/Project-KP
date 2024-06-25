@@ -33,11 +33,11 @@ class PelatihanSeeder extends Seeder
         ];
         
         $id_pengajar = [
-            020001,
-            020001,
-            020001,
-            020002,
-            020002
+            3,
+            3,
+            3,
+            4,
+            4
         ];
 
         for ($i = 0; $i < 4; $i++) {

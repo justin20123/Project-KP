@@ -27,7 +27,7 @@ class PelatihanController extends Controller
                 ->select('pelatihan.*')
                 ->where("id_pengajar", "=", Auth::id())
                 ->get();
-        } else if (Auth::user()->role == "pengajar") {
+        } else if (Auth::user()->role == "peserta") {
             $pelatihans = DB::table('pelatihan')
                 ->select('pelatihan.*')
                 ->join("kelas_diikuti", "kelas_diikuti.idpelatihan", "=", "pelatihan.id")

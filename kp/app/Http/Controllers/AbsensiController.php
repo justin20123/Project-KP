@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absensi;
+use App\Models\Kehadiran;
+use App\Models\Kelas_diikuti;
 use App\Models\Pelatihan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AbsensiController extends Controller
@@ -71,7 +74,7 @@ class AbsensiController extends Controller
             else{
                 $pertemuan_sekarang = $pertemuan_sebelumnya->nomor_pertemuan + 1;
             }
-            Absensi::create([
+            $data_absen = Absensi::create([
                 'nomor_angkatan' => $absensi->nomor_angkatan,
                 'nomor_pertemuan' => $pertemuan_sekarang,
                 'status' => "dibuka",
@@ -79,6 +82,24 @@ class AbsensiController extends Controller
                 'tanggal_absensi' => $curr_date,
                 'idpelatihan' => $absensi->id_pelatihan,
             ]);
+            //Absensi berhasil dibuka
+
+            $pengikut_kelas = DB::table('kelas_diikuti')
+            ->select("*")
+            ->where("idpelatihan","=",$absensi->id_pelatihan)
+            ->get();
+            foreach ($pengikut_kelas as $pengikut) {
+                Kehadiran::create([
+                    'nomor_pertemuan' =>$pertemuan_sekarang,
+                    'status'=> "alfa",
+                    'sudah_absen' => 0,
+                    'id_peserta' => $pengikut->id_peserta,
+                    'absensi_idpelatihan' => $absensi->id_pelatihan,
+                    'idabsensi'=>$data_absen->id
+                ]);
+            }
+            //nambahin kehadiran yg nanti diedit waktu absen
+
             $nama_pelatihan = DB::table('pelatihan')
             ->select('nama')
             ->where('id','=',$absensi->id_pelatihan)
@@ -91,8 +112,23 @@ class AbsensiController extends Controller
         }
     }
 
-    public function bukaAbsensi(){
+    public function doAbsensi(Request $request){
 
+        $cek_tersedia = DB::table('absensi')
+        ->select('absensi.*')
+        ->where('id'.'=',$request->id)
+        ->get();
+        if($cek_tersedia->count() == 0){
+            return redirect()->route("pelatihan.index")->with("error","Absensi tidak ditemukan");
+        }
+        else{
+            $kehadiran = Kehadiran::where("id",$request->id)->first();
+            $kehadiran->status = "hadir";
+            $kehadiran->sudah_absen = 1;
+            $kehadiran->save();
+            return redirect()->route("pelatihan.index")->with("message", "Absensi berhasil");
+        }
+        
     }
 
     /**

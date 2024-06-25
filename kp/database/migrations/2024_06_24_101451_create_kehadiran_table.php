@@ -17,6 +17,7 @@ class CreateKehadiranTable extends Migration
             $table->id();
             $table->unsignedBigInteger('nomor_pertemuan');
             $table->enum('status', ["hadir", "alfa", "sakit", "ijin"]);
+            $table->tinyInteger('sudah_absen');
             $table->timestamps();
         });
     }
