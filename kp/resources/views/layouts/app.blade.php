@@ -10,16 +10,18 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    
+    <script src="{{ asset('assets/vendor/js/bootstrap.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <!-- Select2 -->
+    <link href="{{ asset('assets/vendor/css/select2.css') }}" rel="stylesheet">
+
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/css/core.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -59,7 +61,7 @@
                                     {{ Auth::user()->name }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -82,9 +84,4 @@
         </main>
     </div>
 </body>
-@section('javescript')
-<script>
-    function getPelatihanId
-</script>
-@endsection
 </html>

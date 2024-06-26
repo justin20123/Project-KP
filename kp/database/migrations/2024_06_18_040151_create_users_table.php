@@ -20,8 +20,10 @@ class CreateUsersTable extends Migration
             $table->string('alamat', 45);
             $table->string('email', 30)->unique();
             $table->integer('umur')->default(0);
-            $table->date('tanggal_lahir');
             $table->enum('role', ["peserta", "pengajar", "admin"])->default("peserta");
+            $table->tinyInteger('status');
+            $table->dateTime('last_login')->nullable();
+            $table->timestamps();
             $table->softDeletes();
         });
     }

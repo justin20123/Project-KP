@@ -10,31 +10,28 @@
 @section('menu')
 <div class="portlet-title">
     <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
-        Edit Data Peserta
+        Edit Data Admin
     </div>
 </div>
 @endsection
 @section('content')
-
-<form method="POST" action="{{ route('peserta.update', $user->id) }}">
+<form method="POST" action="{{route('admin.update', $user->id)}}">
     @csrf
-    @method('PUT')
+    @method("PUT")
     <div class="form-group">
         <label>Nama</label>
         <input type="text" name="nama" class="form-control" id="nama" required value="{{ $user->nama }}">
 
         <label>Alamat</label>
-        <textarea name="alamat" class="form-control" id="alamat" required>{{ $peserta->alamat }}</textarea>
-
+        <textarea name="alamat" class="form-control" id="alamat" required>{{ $user->alamat }}</textarea>
+       
         <label>Email</label>
         <input type="email" name="email" class="form-control" id="email" required value="{{ $user->email }}">
 
         <label>Umur</label>
-        <input type="text" name="umur" class="form-control" id="umur" required value="{{ $user->umur }}">
-
+        <input type="number" name="umur" class="form-control" id="umur" max="100" min="0" required value="{{ $user->umur }}">
     </div>
     <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
 </form>
-
 
 @endsection

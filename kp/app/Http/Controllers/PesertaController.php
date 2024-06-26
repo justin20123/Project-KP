@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Peserta;
+use App\Models\User;
 use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class PesertaController extends Controller
 {
@@ -19,22 +19,10 @@ class PesertaController extends Controller
      */
     public function index()
     {
-        //
-        $user_pesertas = DB::table('users')
-            ->select('users.*')
-            ->where('role',"=","peserta")
-            ->whereNull('pesertas.deleted_at')
-            ->get();
-
-        $softDeletedPesertas = Peserta::onlyTrashed()
-        ->with(['user' => function ($query) {
-            $query->withTrashed();}])
+        $peserta = DB::table('users')
+        ->select('users.*')
         ->get();
-
-        return view('peserta.index', [
-            'user_pesertas' => $user_pesertas,
-            'deleted_pesertas' =>$softDeletedPesertas
-        ]);
+        return view('peserta.index', compact('peserta'));
     }
 
     /**
@@ -44,9 +32,7 @@ class PesertaController extends Controller
      */
     public function create()
     {
-        //Display add new peserta form
         return view('peserta.create');
-
     }
 
     /**
@@ -57,8 +43,31 @@ class PesertaController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:8',
+        ], [
+            'password.required' => 'Password harus diisi.',
+            'password.min' => 'Password minimal harus terdiri dari 8 karakter.',
+        ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
+        $users = new Users();
+        $users->nama = $request->get('nama');
+        $users->alamat = $request->get('alamat');
+        $users->email = $request->get('email');
+        $users->umur = $request->get('umur');
+        $users->password = Hash::make($request->get('password'));
+        $users->role = "Peserta";
+        $users->status = 1;
+        $users->last_login = now("Asia/Bangkok");
+        $users->created_at = now("Asia/Bangkok");
+        $users->updated_at = now("Asia/Bangkok");
+        $users->save();
+
+        return redirect()->route('peserta.index')->with('status', 'New peserta  ' .  $users->nama . ' is already inserted');
     }
 
     /**
@@ -79,16 +88,9 @@ class PesertaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
-        $peserta = DB::table('users')
-        ->select('users.*')
-        ->where('peserta.nomor', '=', $id)
-        ->get();
-
-        return view('peserta.edit', [
-            'peserta' => $peserta
-        ]);
+    {       
+        $user = Users::find($id);
+        return view('peserta.edit', compact('user'));       
     }
 
     /**
@@ -99,43 +101,17 @@ class PesertaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {      
+        $users = Users::find($id); 
 
-        $peserta = Peserta::with('user')->findOrFail($id);
+        $users->nama = $request->get('nama');
+        $users->alamat = $request->get('alamat');
+        $users->email = $request->get('email');
+        $users->umur = $request->get('umur');
+        $users->updated_at = now("Asia/Bangkok");
+        $users->save();
 
-        // Check if the $peserta or $peserta->user is null
-        if (!$peserta || !$peserta->user) {
-            return redirect()->route('admin.peserta.index')->with('success', 'Data User & Peserta Tidak Valid!');
-        }
-
-        $validatedData = $request->validate([
-            'username' => 'required|max:16',
-            'email' => 'required|max:255|email',
-            'phone' => 'required|max:45',
-            'address' => 'required|max:255'
-        ]);
-
-        if (
-            $peserta->phone == $validatedData['phone'] &&
-            $peserta->address == $validatedData['address'] &&
-            $peserta->user->username == $validatedData['username'] &&
-            $peserta->user->email == $validatedData['email']
-        ) {
-            return redirect()->route('admin.peserta.edit', ['peserta' => $id])->with('msg', 'Tidak Ada Perubahan Data!');
-        } else {
-            $peserta->phone = $validatedData['phone'];
-            $peserta->address = $validatedData['address'];
-
-            // Update the user attributes
-            $peserta->user->username = $validatedData['username'];
-            $peserta->user->email = $validatedData['email'];
-            $peserta->user->save();
-
-            $peserta->save();
-
-            return redirect()->route('admin.peserta.index')->with('success', 'Data Peserta berhasil diperbaharui!');
-        }
-
+        return redirect()->route('peserta.index')->with('status', 'peserta '  .  $users->nama . ' is already updated');
     }
 
     /**
@@ -144,87 +120,8 @@ class PesertaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Peserta $sisw)
     {
-        //
-        // Find the peserta by ID
-        $peserta = Peserta::findOrFail($id);
-
-        // Delete the peserta and the related users
-        $peserta->delete();
-        
-        return redirect()->back()->with('success', 'Peserta berhasil dihapus.');
+       
     }
-
-    public function restore($id)
-    {
-        $peserta = Peserta::onlyTrashed()->findOrFail($id);
-
-        $peserta->restore();
-
-        return redirect()->back()->with('success', 'Peserta berhasil dikembalikan.');
-        // return redirect()->back()->with('success', 'Peserta gagal dikembalikan.');
-    }
-
-    //mendaftarkan/store akun dengan role peserta ke table user
-    public function register(Request $request){
-
-        $validatedData = $request->validate([
-            'name' => 'required|max:45',
-            'username' => 'required|max:16',
-            'email' => 'required|email',
-            'password' => 'required',
-            'role' => 'buyer'
-        ]);
-
-        $validatedData['password'] = Hash::make($validatedData['password']);
-
-        // dd($validatedData);
-        $user = Users::create($validatedData);
-
-        //update role
-        $changeToPeserta = Users::where('email', $validatedData['email'])->first();
-        $changeToPeserta->role = 'peserta';
-        $changeToPeserta->save();
-
-        $latestID = $user->id;
-        // dd($validatedData);
-        return redirect()->route('owner.peserta.activate', ['id' => $latestID])
-        ->with('success', 'Lengkapi Data Diri Peserta Berikut !');
-
-
-    }
-
-    //menampilkan form registrasi akun user
-    public function formRegister(Request $request){
-        return view('peserta.create');
-    }
-
-    //menampilkan form data diri akun peserta
-    public function formActivate($id){
-
-        return view('peserta.activate', [
-            'id' => $id
-        ]);
-    }
-
-    //mendaftarkan/store akun dengan role peserta ke table peserta
-    public function verifiedAccount(Request $request){
-
-        $validatedData = $request->validate([
-            'phone' => 'required|max:16',
-            'address' => 'required|max:255',
-            'gender' => 'required',
-            'hired' => 'required',
-            'birthdate' => 'required',
-        ]);
-
-        $validatedData['user_id'] = Users::latest()->value('id');
-
-        // dd($validatedData);
-        Peserta::create($validatedData);
-        return redirect()->route('admin.peserta.index')
-        ->with('success', 'Berhasil Menambahkan Akun Peserta Baru!');
-    }
-
 }

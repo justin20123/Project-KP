@@ -25,13 +25,21 @@ Auth::routes();
 
 
 Route::get('/pelatihan', [PelatihanController::class, 'index'])->name('pelatihan.index');
-Route::post('/doAbsensi', [AbsensiController::class, 'doAbsensi'])->name('absensi.doAbsensi');
 
+//absensi
+Route::post('/doAbsensi', [AbsensiController::class, 'doAbsensi'])->name('absensi.doAbsensi');
 Route::resource('absensi', AbsensiController::class);
+
+Route::resource('admin', AdminController::class);
+
+Route::resource('peserta', PesertaController::class);
+
+Route::post('admin/aktifkan', [AdminController::class, 'aktifkan'])->name('admin.aktifkan');
+Route::post('admin/nonaktifkan', [AdminController::class, 'nonaktifkan'])->name('admin.nonaktifkan');
 
 //admin
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
-    Route::resource('/dashboard', AdminController::class)->names('admin.dashboard')->only(['index']);
+    Route::resource('peserta', PesertaController::class);
 
     //register admin
     Route::get('/register', [AdminController::class, 'formRegister'])->name('admin.admin.register');

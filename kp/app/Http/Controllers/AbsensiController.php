@@ -67,6 +67,7 @@ class AbsensiController extends Controller
                 ->select('absensi.nomor_pertemuan')
                 ->where("absensi.idpelatihan", "=", $absensi->id_pelatihan)
                 ->where("absensi.nomor_angkatan", "=", $absensi->nomor_angkatan)
+                ->orderBy("absensi.nomor_pertemuan",'desc')
                 ->get()->first();
             if ($pertemuan_sebelumnya == null) {
                 $pertemuan_sekarang = 1;

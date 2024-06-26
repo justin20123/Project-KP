@@ -10,20 +10,20 @@
 @section('menu')
 <div class="portlet-title">
     <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
-        Add New Siswa
+        Add New Admin
     </div>
 </div>
 @endsection
 @section('content')
-<form method="POST" action="{{route('peserta.store')}}">
+<form method="POST" action="{{route('admin.store')}}">
     @csrf
     <div class="form-group">
         <label>Nama</label>
         <input type="text" name="nama" class="form-control" id="nama" required value="{{ old('nama') }}">
 
         <label>Alamat</label>
-        <textarea name="alamat" class="form-control" id="alamat" required>{{ old('alamat') }}</textarea>
-
+        <textarea name="alamat" class="form-control" id="alamat" required>"{{ old('alamat') }}"</textarea>
+       
         <label>Email</label>
         <input type="email" name="email" class="form-control" id="email" required value="{{ old('email') }}">
 
@@ -35,22 +35,8 @@
         @error('password')
             <div class="text-danger">{{ $message }}</div>
         @enderror
-
-        <label>Tempat Lahir</label>
-        <input type="text" name="tempatLahir" class="form-control" id="tempatLahir" required value="{{ old('tempat_lahir') }}">
-
-        <label>Tanggal Lahir</label>
-        <input type="date" name="tanggalLahir" class="form-control" id="tanggalLahir" required value="{{ old('tanggal_lahir') }}">
-
-        <label>Jenis Kelamin</label>
-        <select name="jenisKelamin" class="form-control" id="jenisKelamin" required>
-            <option value="Pria" {{ old('jenisKelamin') == 'Pria' ? 'selected' : '' }}>Pria</option>
-            <option value="Wanita" {{ old('jenisKelamin') == 'Wanita' ? 'selected' : '' }}>Wanita</option>
-        </select>
-
-        <label>Alamat</label>
-        <textarea name="alamat" class="form-control" id="alamat" required>{{ old('alamat') }}</textarea>
     </div>
     <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
 </form>
+
 @endsection

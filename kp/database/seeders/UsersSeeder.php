@@ -50,13 +50,6 @@ class UsersSeeder extends Seeder
         ];
 
         $umur = [21,11,29,30,25];
-        $tanggal_lahir = [
-            "2003-01-01",
-            "2013-01-01",
-            "1995-01-01",
-            "1994-01-01",
-            "1999-01-01"
-        ];
         $role = [
             "peserta",
             "peserta",
@@ -66,15 +59,16 @@ class UsersSeeder extends Seeder
         ];
 
 
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             DB::table('users')->insert([
                 'nama' => $nama[$i],
                 'password' => Hash::make($password[$i]),
                 'alamat' => $alamat[$i],
                 'email' => $email[$i],
                 'umur' => $umur[$i],
-                'tanggal_lahir' => $tanggal_lahir[$i],
                 'role' => $role[$i],
+                'status' => 1,
+                'last_login' => null,
             ]);
         }
     }
