@@ -36,6 +36,30 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-do-absen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Absen</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('absensi.doAbsensi') }}" class="col col-6"
+                                    method="post">
+                                    @csrf'
+                                    <input type="hidden" name="" id="do-absen-id-absensi">
+                                    <label for="">Absen anda akan tersimpan</label>
+                                    <input type="submit" value="ok" class="btn btn-primary">
+                                    
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+</div>
+
 @if (session('status'))
 <div class="alert alert-success">{{session('status')}}</div>
 @endif
@@ -111,15 +135,9 @@
         $("#buka-absen-id-pelatihan").html("<input type='hidden' name='id_pelatihan' value='"+idpelatihan+"'>");
     }
 
-    function do_absensi(id) {
-        $.ajax({
-                type: 'POST',
-                url: "{{ route('absensi.doAbsensi') }}",
-                data: {
-                    '_token': '<?php echo csrf_token(); ?>',
-                    'id': id,
-                },
-            });
+    function do_absensi(idabsensi) {
+        $("#do-absen-id-absensi").html("<input type='hidden' name='idabsensi' value='"+idabsensi+"'>");
+        $("#modal-do-absen").modal("show");
     }
 </script>
 @endsection

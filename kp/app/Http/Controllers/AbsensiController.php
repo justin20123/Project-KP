@@ -113,16 +113,18 @@ class AbsensiController extends Controller
     }
 
     public function doAbsensi(Request $request){
-
+        
         $cek_tersedia = DB::table('absensi')
         ->select('absensi.*')
-        ->where('id'.'=',$request->id)
+        ->where('id','=',$request->idabsensi)
         ->get();
+
+   
         if($cek_tersedia->count() == 0){
             return redirect()->route("pelatihan.index")->with("error","Absensi tidak ditemukan");
         }
         else{
-            $kehadiran = Kehadiran::where("id",$request->id)->first();
+            $kehadiran = Kehadiran::where("id",$request->idabsensi)->first();
             $kehadiran->status = "hadir";
             $kehadiran->sudah_absen = 1;
             $kehadiran->save();

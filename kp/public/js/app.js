@@ -1,3 +1,6 @@
+import './styles/app.css'; // Ensure this imports your Symfony debug toolbar styles
+import './sf-dump'; // Make sure this imports the sf-dump JavaScript functionality
+
 /*
  * ATTENTION: An "eval-source-map" devtool has been used.
  * This devtool is neither made for production nor for readable output files.
