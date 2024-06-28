@@ -20,7 +20,8 @@ class PesertaController extends Controller
     public function index()
     {
         $peserta = DB::table('users')
-        ->select('users.*')
+        ->select('users.*', 'orang_tua.nama as namaorangtua')
+        ->join('orang_tua', 'users.id', '=', 'orang_tua.id_peserta')
         ->get();
         return view('peserta.index', compact('peserta'));
     }
@@ -102,16 +103,15 @@ class PesertaController extends Controller
      */
     public function update(Request $request, $id)
     {      
-        $users = Users::find($id); 
+        $user = Users::find($id); 
 
-        $users->nama = $request->get('nama');
-        $users->alamat = $request->get('alamat');
-        $users->email = $request->get('email');
-        $users->umur = $request->get('umur');
-        $users->updated_at = now("Asia/Bangkok");
-        $users->save();
+        $user->nama = $request->get('nama');
+        $user->alamat = $request->get('alamat');
+        $user->umur = $request->get('umur');
+        $user->updated_at = now("Asia/Bangkok");
+        $user->save();
 
-        return redirect()->route('peserta.index')->with('status', 'peserta '  .  $users->nama . ' is already updated');
+        return redirect()->route('peserta.index')->with('status', 'peserta '  .  $user->nama . ' is already updated');
     }
 
     /**

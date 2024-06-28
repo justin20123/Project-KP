@@ -11,6 +11,7 @@
 <div class="portlet-title">
     <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
         Edit Data Peserta
+        <small>Untuk data orang tua bisa diedit pada bagian list orang tua</small>
     </div>
 </div>
 @endsection
@@ -25,9 +26,6 @@
 
         <label>Alamat</label>
         <textarea name="alamat" class="form-control" id="alamat" required>{{ $peserta->alamat }}</textarea>
-
-        <label>Email</label>
-        <input type="email" name="email" class="form-control" id="email" required value="{{ $user->email }}">
 
         <label>Umur</label>
         <input type="text" name="umur" class="form-control" id="umur" required value="{{ $user->umur }}">

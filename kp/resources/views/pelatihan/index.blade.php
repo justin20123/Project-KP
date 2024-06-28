@@ -1,7 +1,10 @@
 @extends('layouts.sneat')
 
+@if((Auth::user()->role == 'peserta')||(Auth::user()->role == 'pengajar'))
+
 @section('content')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 
 <div class="modal fade" id="modal-buka-absen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                     aria-hidden="true">
@@ -81,25 +84,24 @@
     <div class="container px-2 px-lg-2 mt-2">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             
-            @foreach ($list_pelatihan as $pelatihan)
+            @foreach ($pelatihan as $p)
             <div class="col mb-5">
                 <div class="card h-100">
                     <div class="card-body p-4">
                         <div class="text-center">
-                            <h5 class="fw-bolder">{{ $pelatihan->nama }}</h5>
-                            <h5 class="fw-bolder">{{ $pelatihan->jadwal_pelatihan }}</h5>
+                            <h5 class="fw-bolder">{{ $p->nama }}</h5>
+                            <h5 class="fw-bolder">{{ $p->jadwal_pelatihan }}</h5>
                             <hr class="hr" />
                             
                             @if(str_contains(Auth::user()->role, 'pengajar'))
-                            <button onclick='buka_absensi({{ $pelatihan->nomor_angkatan }}, {{ $pelatihan->id }})' id='btn-buka-absen-{{ $pelatihan->id }}' data-toggle="modal" style="border: none;background-color:#74a7ff"  role="button">Buka Absensi</button>
-                            {{-- <button onclick="formBukaAbsensi({{ $pelatihan->id }})" >Buka absensi</button> --}}
+                            <button onclick='buka_absensi({{ $p->nomor_angkatan }}, {{ $p->id }})' id='btn-buka-absen-{{ $p->id }}' data-toggle="modal" style="border: none;background-color:#74a7ff"  role="button">Buka Absensi</button>
                             <button onclick="lihat_absensi('peserta')" style="border: none;">Lihat absensi</button>
                             <hr class="hr" />
 
                             <button onclick="tutup_absensi()" style="border: none;background-color:#ff0103 ">Tutup absensi</button>
                             @endif
                             @if(str_contains(Auth::user()->role, 'peserta'))
-                            <button onclick="do_absensi( {{ $pelatihan->id }} )" style="border: none; background-color:#8080FF">Absen</button>
+                            <button onclick="do_absensi( {{ $p->id }} )" style="border: none; background-color:#8080FF">Absen</button>
                             <button onclick="lihat_absensi('peserta')" style="border: none;">Lihat kehadiran</button>
                             @endif
 
@@ -112,7 +114,7 @@
         </div>
     </div>
 </section>
-
+@endsection
 @section('script')
 <script src="{{ asset('assets/scripts/app.js') }}"></script>
 <script>
@@ -140,4 +142,77 @@
         $("#modal-do-absen").modal("show");
     }
 </script>
+@endif
+
+@if(Auth::user()->role == 'admin')
+@section('menu')
+<div class="portlet-title">
+    <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
+        List Pelatihan
+    </div>
+
+    @if(str_contains(Auth::user()->role, 'admin'))
+    <div style="float: right; margin: 15px;">
+        <a href="{{url('pelatihan/create')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</a>
+    </div>
+    @endif
+
+</div>
 @endsection
+
+@section('content')
+
+@if (session('status'))
+<div class="alert alert-success">{{session('status')}}</div>
+@endif
+
+<div class="table-responsive">
+    <table id="pelatihan" class="table table-striped" style="width:100%">
+        <thead class="table-border-bottom-0">
+            <tr>
+                <th>#</th>
+                <th>Nama</th>
+                <th>Deskripsi</th>
+                <th>Nomor Pertemuan</th>
+                <th>Jadwal Pelatihan</th>
+                <th>Nomor Angkatan</th>
+                <th>Detail</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (count($pelatihan) == 0)
+            <tr>
+                <td class="text-center" colspan="8">Tidak ada Pelatihan yang terdata</td>
+            </tr>
+            @else
+            @foreach ($pelatihan as $p)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $p->nama }}</td>
+                <td>{{ $p->deskripsi }}</td>
+                <td>{{ $p->jadwal_pelatihan }}</td>
+                <td>{{ $p->nomor_angkatan }}</td>
+                @if(str_contains(Auth::user()->role, 'admin'))
+                    <td class="text-center"><a href="{{ route('pelatihan.edit', $p->id) }}"
+                        class="btn btn-sm btn-primary"><i class='bx bx-edit-alt'></i></a>
+                    </td>
+                @endif
+            </tr>
+            @endforeach
+            @endif
+        </tbody>
+    </table>
+</div>
+@endsection
+
+
+@section('script')
+<script>
+    $(document).ready(function () {
+        $('#pelatihan').DataTable({
+            "scrollX": true
+        });
+    });
+</script>
+@endsection
+@endif

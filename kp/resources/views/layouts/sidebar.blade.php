@@ -16,25 +16,8 @@
     </a>
   </li>
 
-  @if (str_contains(Auth::user()->role, 'superadmin') || str_contains(Auth::user()->role, 'admin'))
-  <li class="{{ (request()->is('level*')) ? 'menu-item active': 'menu-item'}}">
-    <a href="{{ url('level') }}" class="menu-link">
-      <i class="menu-icon tf-icons bx bx-first-aid"></i>
-      <div data-i18n="Analytics">Level Pelatihan</div>
-    </a>
-  </li>
-  @endif
 
-  @if (str_contains(Auth::user()->role, 'superadmin') || str_contains(Auth::user()->role, 'admin') || str_contains(Auth::user()->role, 'pengajar'))
-  <li class="{{ (request()->is('pelatihan*')) ? 'menu-item active': 'menu-item'}}">
-    <a href={{ url('pelatihan') }} class="menu-link">
-      <i class="menu-icon tf-icons bx bx-book"></i>
-      <div data-i18n="Analytics">Jenis Pelatihan</div>
-    </a>
-  </li>
-  @endif
-
-  @if (str_contains(Auth::user()->role, 'superadmin') || str_contains(Auth::user()->role, 'admin'))
+  @if (str_contains(Auth::user()->role, 'admin'))
   <li class="{{ (request()->is('admin*')) ? 'menu-item active': 'menu-item'}}">
     <a href="{{ url('admin') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-male"></i>
@@ -43,7 +26,7 @@
   </li>
   @endif
 
-  @if (str_contains(Auth::user()->role, 'superadmin') || str_contains(Auth::user()->role, 'admin'))
+  @if (str_contains(Auth::user()->role, 'admin'))
   <li class="{{ (request()->is('pengajar*')) ? 'menu-item active': 'menu-item'}}">
     <a href="{{ url('pengajar') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-user"></i>
@@ -52,7 +35,7 @@
   @endif
 
   
-  @if (str_contains(Auth::user()->role, 'superadmin') || str_contains(Auth::user()->role, 'admin'))
+  @if (str_contains(Auth::user()->role, 'admin'))
   <li class="{{ (request()->is('peserta*')) ? 'menu-item active': 'menu-item'}}">
     <a href="{{ url('peserta') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bxs-graduation"></i>
@@ -61,11 +44,18 @@
   @endif
 
       
-  @if (str_contains(Auth::user()->role, 'superadmin') || str_contains(Auth::user()->role, 'admin'))
+  @if (str_contains(Auth::user()->role, 'admin'))
   <li class="{{ (request()->is('orangtua*')) ? 'menu-item active': 'menu-item'}}">
-    <a href="{{ url('orangtua') }}" class="menu-link">
+    <a href="{{ route('orangtua.index') }}" class="menu-link">
       <i class='menu-icon tf-icon bx bxs-user-account'></i>
       <div data-i18n="Analytics">Daftar Orang Tua</div>
+    </a>
+  @endif
+  @if (str_contains(Auth::user()->role, 'admin'))
+  <li class="{{ (request()->is('pelatihan*')) ? 'menu-item active': 'menu-item'}}">
+    <a href="{{ route('pelatihan.index') }}" class="menu-link">
+      <i class='menu-icon tf-icon bx bxs-whiteboard'></i>
+      <div data-i18n="Analytics">Daftar Pelatihan</div>
     </a>
   @endif
 
@@ -84,13 +74,6 @@
       <div data-i18n="Analytics">Buka Absensi</div>
     </a>
   @endif
-
-  <li class="{{ (request()->is('ubahpassword*')) ? 'menu-item active': 'menu-item'}}">
-    <a href="{{ url('ubahpassword') }}" class="menu-link">
-      <i class="menu-icon tf-icons bx bx-key"></i>
-      <div data-i18n="Analytics">Ubah Password</div>
-    </a>
-  </li>
 
   <li class="menu-item">
     <form action="{{ route('logout') }}" method="POST">

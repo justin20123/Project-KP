@@ -22,13 +22,19 @@ class PelatihanController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role == "pengajar") {
-            $pelatihans = DB::table('pelatihan')
+        if (Auth::user()->role == "admin") {
+            $pelatihan = DB::table('pelatihan')
+                ->select('pelatihan.*')
+                ->join('users','users.id','=','pelatihan.id_pengajar')
+                ->get();
+        }
+        else if (Auth::user()->role == "pengajar") {
+            $pelatihan = DB::table('pelatihan')
                 ->select('pelatihan.*')
                 ->where("id_pengajar", "=", Auth::id())
                 ->get();
         } else if (Auth::user()->role == "peserta") {
-            $pelatihans = DB::table('pelatihan')
+            $pelatihan = DB::table('pelatihan')
                 ->select('pelatihan.*')
                 ->join("kelas_diikuti", "kelas_diikuti.idpelatihan", "=", "pelatihan.id")
                 ->where("kelas_diikuti.id_peserta", "=", Auth::id())
@@ -36,7 +42,7 @@ class PelatihanController extends Controller
         }
 
 
-        return view('pelatihan.index', ["list_pelatihan" => $pelatihans]);
+        return view('pelatihan.index', ["pelatihan" => $pelatihan]);
     }
 
     /**
@@ -46,7 +52,7 @@ class PelatihanController extends Controller
      */
     public function create()
     {
-        //
+        return view('pelatihan.create');
     }
 
     /**
@@ -57,7 +63,17 @@ class PelatihanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pelatihan = new Pelatihan();
+        $pelatihan->nama = $request->get('pelatihan');
+        $pelatihan->deskripsi = $request->get('deskripsi');
+        $pelatihan->jadwal_pertemuan = $request->get('jadwal_pertemuan');
+        $pelatihan->nomor_angkatan = 1; //pelatihan baru
+
+        $pelatihan->created_at = now("Asia/Bangkok");
+        $pelatihan->updated_at = now("Asia/Bangkok");
+
+        $pelatihan->save();
+        return redirect()->route('pelatihan.index')->with('status', 'New pelatihan ' .  $pelatihan->nama . ' is already inserted');
     }
 
     /**
@@ -77,9 +93,10 @@ class PelatihanController extends Controller
      * @param  \App\Models\Pelatihan  $pelatihan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pelatihan $pelatihan)
+    public function edit($id)
     {
-        //
+        $pelatihan = Pelatihan::find($id);
+        return view('pelatihan.edit', compact('pelatihan'));  
     }
 
     /**
@@ -89,9 +106,17 @@ class PelatihanController extends Controller
      * @param  \App\Models\Pelatihan  $pelatihan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pelatihan $pelatihan)
-    {
-        //
+    public function update(Request $request, $id)
+    {      
+        $pelatihan = Pelatihan::find($id);
+        $pelatihan->nama = $request->get('pelatihan');
+        $pelatihan->deskripsi = $request->get('deskripsi');
+        $pelatihan->jadwal_pertemuan = $request->get('jadwal_pertemuan');
+
+        $pelatihan->updated_at = now("Asia/Bangkok");
+
+        $pelatihan->save();
+        return redirect()->route('pelatihan.index')->with('status', 'Pelatihan '  .  $pelatihan->nama . ' is already updated');
     }
 
     /**
@@ -113,7 +138,7 @@ class PelatihanController extends Controller
                 ->where("absensi.nomor_peserta", "=", $nomor_peserta)
                 ->where("absensi.idpelatihan", "=", $idpelatihan)
                 ->get();
-        } else {
+        } else if ($role == "pengajar"){
             $pelatihans = DB::table('absensi')
                 ->select('absensi.*')
                 ->where("absensi.idpelatihan", "=", $idpelatihan)

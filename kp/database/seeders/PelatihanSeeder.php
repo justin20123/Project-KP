@@ -22,6 +22,14 @@ class PelatihanSeeder extends Seeder
             "Hukum Pidana",
             "Bisnis Keuangan"
         ];
+        
+        $deskripsi = [
+            "Akuntansi adalah ilmu yang mempelajari tentang pencatatan, pengol",
+            "Dasar Pemrograman adalah ilmu yang mempelajari tentang cara menggunakan bahasa pemrograman untuk menciptakan program komputer yang dapat bekerja dan berperilaku yang tepat.",
+            "Psikologi Dewasa adalah ilmu yang menggunakan teori dan metodologi yang berfokus pada perilaku, kebebasan, dan pengaruh psikologis di dalam",
+            "Hukum Pidana adalah ilmu yang menggunakan teori dan metodologi yang berfokus pada penyelesaian masalah-masalah yang terjadi di dalam perkawinan, keluarga, dan negara.",
+            "Bisnis Keuangan adalah ilmu yang menggunakan teori dan metodologi yang berfokus pada pencatatan, pengolahan, dan analisis ke"
+        ];
 
 
         $jadwal_pelatihan = [
@@ -40,9 +48,10 @@ class PelatihanSeeder extends Seeder
             4
         ];
 
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             DB::table('pelatihan')->insert([
                 'nama' => $nama[$i],
+                'deskripsi' => $deskripsi[$i],
                 'jadwal_pelatihan' =>$jadwal_pelatihan[$i],
                 'id_pengajar' => $id_pengajar[$i],
             ]);

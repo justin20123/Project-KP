@@ -23,10 +23,7 @@
         <input type="text" name="nama" class="form-control" id="nama" required value="{{ $user->nama }}">
 
         <label>Alamat</label>
-        <textarea name="alamat" class="form-control" id="alamat" required>{{ $user->alamat }}</textarea>
-       
-        <label>Email</label>
-        <input type="email" name="email" class="form-control" id="email" required value="{{ $user->email }}">
+        <textarea name="alamat" class="form-control" id="alamat" required>{{ $user->alamat }}</textarea>    
 
         <label>Umur</label>
         <input type="number" name="umur" class="form-control" id="umur" max="100" min="0" required value="{{ $user->umur }}">

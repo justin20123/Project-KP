@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('password', 225);
             $table->string('nama', 30);
             $table->string('alamat', 45);
-            $table->string('email', 30)->unique();
+            $table->string('email', 20)->unique();
             $table->integer('umur')->default(0);
             $table->enum('role', ["peserta", "pengajar", "admin"])->default("peserta");
             $table->tinyInteger('status');

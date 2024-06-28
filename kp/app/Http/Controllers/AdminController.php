@@ -112,13 +112,8 @@ class AdminController extends Controller
     {
         $user = Users::find($id);
 
-        $user->username = $request->get('usernameAdmin');
-        $user->updated_at = now("Asia/Bangkok");
-        $user->save();
-
         $user->nama = $request->get('nama');
         $user->alamat = $request->get('alamat');
-        $user->email = $request->get('email');
         $user->umur = $request->get('umur');
         $user->created_at = now("Asia/Bangkok");
         $user->updated_at = now("Asia/Bangkok");

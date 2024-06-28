@@ -16,6 +16,9 @@ class CreateOrangTuaTable extends Migration
         Schema::create('orang_tua', function (Blueprint $table) {
             $table->id();
             $table->string('nama',45);
+            $table->string('email',20)->unique();
+            $table->string('password',225);
+            $table->timestamps();
             $table->softDeletes();
 
         });

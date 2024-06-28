@@ -3,6 +3,7 @@
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\OrangtuaController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PengajarController;
@@ -24,18 +25,25 @@ Auth::routes();
 
 
 
-Route::get('/pelatihan', [PelatihanController::class, 'index'])->name('pelatihan.index');
-
+Route::resource('pelatihan', PelatihanController::class);
 //absensi
 Route::post('/doAbsensi', [AbsensiController::class, 'doAbsensi'])->name('absensi.doAbsensi');
 Route::resource('absensi', AbsensiController::class);
 
+//admin
 Route::resource('admin', AdminController::class);
+Route::post('admin/aktifkan', [AdminController::class, 'aktifkan'])->name('admin.aktifkan');
+Route::post('admin/nonaktifkan', [AdminController::class, 'nonaktifkan'])->name('admin.nonaktifkan');
+
+//peserta
 
 Route::resource('peserta', PesertaController::class);
 
-Route::post('admin/aktifkan', [AdminController::class, 'aktifkan'])->name('admin.aktifkan');
-Route::post('admin/nonaktifkan', [AdminController::class, 'nonaktifkan'])->name('admin.nonaktifkan');
+//orang tua
+Route::resource('orangtua', OrangtuaController::class);
+
+//pengajar
+Route::resource('pengajar', PengajarController::class);
 
 //admin
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
@@ -60,7 +68,7 @@ Route::group(['middleware' => ['auth', 'role:peserta']], function () {
 Route::get('/', function () {
     $user = Auth::user();
     if ($user && $user->hasRole('admin')) {
-        return redirect()->route('admin.dashboard.index');
+        return redirect()->view('/admin');
     } 
     else if (($user && $user->hasRole('peserta')) || ($user && $user->hasRole('pengajar'))) {
         return redirect()->route('pelatihan.index');

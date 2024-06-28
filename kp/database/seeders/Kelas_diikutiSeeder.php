@@ -29,7 +29,7 @@ class Kelas_diikutiSeeder extends Seeder
 
         
 
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             DB::table('kelas_diikuti')->insert([
                 'idpelatihan' => $idpelatihan[$i],
                 'id_peserta' =>$id_peserta[$i],
