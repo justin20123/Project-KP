@@ -1,12 +1,16 @@
-@extends('layouts.sneat')
 
-@if((Auth::user()->role == 'peserta')||(Auth::user()->role == 'pengajar'))
+@extends('layouts.sneat')
 
 @section('content')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+@if (session('status'))
+<div class="alert alert-success">{{session('status')}}</div>
+@endif
 
+@if((Auth::user()->role == 'peserta') || (Auth::user()->role == 'pengajar'))
 
-<div class="modal fade" id="modal-buka-absen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<section>
+    <div class="modal fade" id="modal-buka-absen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -62,11 +66,6 @@
                     <!-- /.modal-dialog -->
                 </div>
 </div>
-
-@if (session('status'))
-<div class="alert alert-success">{{session('status')}}</div>
-@endif
-<section>
     @if(session("message"))
             <div class="alert alert-success  alert-dismissible fade show" role="alert">
                 <span aria-hidden="true">&times;</span>
@@ -95,13 +94,14 @@
                             
                             @if(str_contains(Auth::user()->role, 'pengajar'))
                             <button onclick='buka_absensi({{ $p->nomor_angkatan }}, {{ $p->id }})' id='btn-buka-absen-{{ $p->id }}' data-toggle="modal" style="border: none;background-color:#74a7ff"  role="button">Buka Absensi</button>
+                            {{-- <button onclick="formBukaAbsensi({{ $pelatihan->id }})" >Buka absensi</button> --}}
                             <button onclick="lihat_absensi('peserta')" style="border: none;">Lihat absensi</button>
                             <hr class="hr" />
 
                             <button onclick="tutup_absensi()" style="border: none;background-color:#ff0103 ">Tutup absensi</button>
                             @endif
                             @if(str_contains(Auth::user()->role, 'peserta'))
-                            <button onclick="do_absensi( {{ $p->id }} )" style="border: none; background-color:#8080FF">Absen</button>
+                            <button onclick="do_absensi( {{ $pelatihan->id }} )" style="border: none; background-color:#8080FF">Absen</button>
                             <button onclick="lihat_absensi('peserta')" style="border: none;">Lihat kehadiran</button>
                             @endif
 
@@ -114,7 +114,7 @@
         </div>
     </div>
 </section>
-@endsection
+
 @section('script')
 <script src="{{ asset('assets/scripts/app.js') }}"></script>
 <script>
@@ -142,6 +142,7 @@
         $("#modal-do-absen").modal("show");
     }
 </script>
+@endsection
 @endif
 
 @if(Auth::user()->role == 'admin')

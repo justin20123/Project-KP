@@ -5,7 +5,7 @@
         color: black;
     }
 </style>
-@extends('layout.sneat')
+@extends('layouts.sneat')
 
 @section('menu')
 <div class="portlet-title">
