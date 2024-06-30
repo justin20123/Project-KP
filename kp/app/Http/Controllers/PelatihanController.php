@@ -53,7 +53,11 @@ class PelatihanController extends Controller
      */
     public function create()
     {
-        return view('pelatihan.create');
+        $pengajar = DB::table("users")
+        ->select('*')
+        ->where('role','=','pengajar')
+        ->get();
+        return view('pelatihan.create', ['pengajar'=>$pengajar]);
     }
 
     /**
@@ -67,12 +71,13 @@ class PelatihanController extends Controller
         $pelatihan = new Pelatihan();
         $pelatihan->nama = $request->get('pelatihan');
         $pelatihan->deskripsi = $request->get('deskripsi');
-        $pelatihan->jadwal_pertemuan = $request->get('jadwal_pertemuan');
+        $pelatihan->jadwal_pelatihan = $request->get('hari_pertemuan').','.$request->get('waktu_awal_pertemuan').'-'.$request->get('waktu_akhir_pertemuan');
         $pelatihan->nomor_angkatan = 1; //pelatihan baru
 
         $pelatihan->created_at = now("Asia/Bangkok");
         $pelatihan->updated_at = now("Asia/Bangkok");
 
+        $pelatihan->id_pengajar = $request->get('pengajar'); 
         $pelatihan->save();
         return redirect()->route('pelatihan.index')->with('status', 'New pelatihan ' .  $pelatihan->nama . ' is already inserted');
     }
@@ -112,7 +117,7 @@ class PelatihanController extends Controller
         $pelatihan = Pelatihan::find($id);
         $pelatihan->nama = $request->get('pelatihan');
         $pelatihan->deskripsi = $request->get('deskripsi');
-        $pelatihan->jadwal_pertemuan = $request->get('jadwal_pertemuan');
+        $pelatihan->jadwal_pelatihan = $request->get('hari_pertemuan').','.$request->get('waktu_awal_pertemuan').'-'.$request->get('waktu_akhir_pertemuan');
 
         $pelatihan->updated_at = now("Asia/Bangkok");
 

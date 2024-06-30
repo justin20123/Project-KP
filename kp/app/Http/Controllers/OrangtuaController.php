@@ -23,7 +23,7 @@ class OrangtuaController extends Controller
         
         $orangtua = DB::table('orang_tua')
         ->join('users','users.id' , '=', 'orang_tua.id_peserta')
-        ->select('orang_tua.nama as namaorangtua', 'orang_tua.email as emailorangtua', 'users.nama as namapeserta')
+        ->select('orang_tua.nama as namaorangtua', 'orang_tua.email as emailorangtua', 'orang_tua.id as idorangtua', 'users.nama as namapeserta')
         
         ->get();
     
@@ -37,7 +37,9 @@ class OrangtuaController extends Controller
      */
     public function create()
     {
-        $peserta = Peserta::all();
+        $peserta = DB::table('users')
+        ->where('role', '=', 'peserta')
+        ->get();
         return view('orangtua.create', compact('peserta'));
     }
 

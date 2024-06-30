@@ -13,8 +13,6 @@
         Edit Data Pengajar
     </div>
 </div>
-@endsection
-@section('content')
 <form method="POST" action="{{route('pengajar.update', $user->id)}}">
     @csrf
     @method("PUT")
@@ -30,5 +28,8 @@
     </div>
     <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
 </form>
+@endsection
+@section('content')
+
 
 @endsection

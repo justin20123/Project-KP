@@ -14,7 +14,7 @@ class AddIdpelatihanToLaporanTable extends Migration
     public function up()
     {
         Schema::table('laporan', function (Blueprint $table) {
-            $table->unsignedBigInteger('idpelatihan');
+            $table->unsignedBigInteger('idpelatihan')->default(0);
             $table->foreign('idpelatihan')->references('id')->on('pelatihan');
         });
     }

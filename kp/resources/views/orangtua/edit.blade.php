@@ -5,7 +5,7 @@
         color: black;
     }
 </style>
-@extends('layout.sneat')
+@extends('layouts.sneat')
 
 @section('menu')
 <div class="portlet-title">
@@ -13,9 +13,6 @@
         Edit Data Siswa
     </div>
 </div>
-@endsection
-@section('content')
-
 <form method="POST" action="{{ route('orangtua.update', $orangtua->users_id) }}">
     @csrf
     @method('PUT')
@@ -26,6 +23,5 @@
     </div>
     <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
 </form>
-
-
 @endsection
+

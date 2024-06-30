@@ -13,8 +13,6 @@
         Add New Orang Tua
     </div>
 </div>
-@endsection
-@section('content')
 <form method="POST" action="{{route('orangtua.store')}}">
     @csrf
     <div class="form-group">
@@ -41,3 +39,4 @@
     <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
 </form>
 @endsection
+

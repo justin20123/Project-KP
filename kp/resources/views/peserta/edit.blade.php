@@ -14,9 +14,6 @@
         <small>Untuk data orang tua bisa diedit pada bagian list orang tua</small>
     </div>
 </div>
-@endsection
-@section('content')
-
 <form method="POST" action="{{ route('peserta.update', $user->id) }}">
     @csrf
     @method('PUT')
@@ -25,7 +22,7 @@
         <input type="text" name="nama" class="form-control" id="nama" required value="{{ $user->nama }}">
 
         <label>Alamat</label>
-        <textarea name="alamat" class="form-control" id="alamat" required>{{ $peserta->alamat }}</textarea>
+        <textarea name="alamat" class="form-control" id="alamat" required>{{ $user->alamat }}</textarea>
 
         <label>Umur</label>
         <input type="text" name="umur" class="form-control" id="umur" required value="{{ $user->umur }}">
@@ -33,6 +30,10 @@
     </div>
     <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
 </form>
+@endsection
+@section('content')
+
+
 
 
 @endsection

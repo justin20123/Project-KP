@@ -13,8 +13,6 @@
         Add New Peserta
     </div>
 </div>
-@endsection
-@section('content')
 <form method="POST" action="{{route('peserta.store')}}">
     @csrf
     <div class="form-group">
@@ -38,4 +36,7 @@
     </div>
     <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
 </form>
+@endsection
+@section('content')
+
 @endsection

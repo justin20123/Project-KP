@@ -17,8 +17,9 @@ class CreatePelatihanTable extends Migration
             $table->id();
             $table->string("nama",45);
             $table->string("deskripsi",200);
-            $table->string("jadwal_pelatihan",20);
+            $table->string("jadwal_pelatihan",30);
             $table->integer('nomor_angkatan')->default(0);
+            $table->timestamps();
             $table->softDeletes();
         });
     }

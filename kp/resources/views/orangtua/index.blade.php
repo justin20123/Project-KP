@@ -16,9 +16,6 @@ use Carbon\Carbon;
     @endif
 
 </div>
-@endsection
-@section('content')
-
 @if (session('status'))
 <div class="alert alert-success">{{session('status')}}</div>
 @endif
@@ -30,7 +27,7 @@ use Carbon\Carbon;
                 <th>#</th>
                 <th>Nama</th>
                 <th>Email</th>
-                <th>Nama Orang Tua</th>
+                <th>Nama Peserta</th>
 
                 @if(str_contains(Auth::user()->role, 'admin'))
                     <th>Edit</th>
@@ -52,7 +49,7 @@ use Carbon\Carbon;
                 <td>{{ $ot->namapeserta }}</td>
                
                 @if(str_contains(Auth::user()->role, 'admin'))
-                    <td class="text-center"><a href="{{ route('orangtua.edit', $ot->useridorangtua) }}"
+                    <td class="text-center"><a href="{{ route('orangtua.edit', $ot->idorangtua) }}"
                         class="btn btn-sm btn-primary"><i class='bx bx-edit-alt'></i></a>
                     </td>
                 @endif
@@ -62,6 +59,10 @@ use Carbon\Carbon;
         </tbody>
     </table>
 </div>
+@endsection
+@section('content')
+
+
 
 @endsection
 

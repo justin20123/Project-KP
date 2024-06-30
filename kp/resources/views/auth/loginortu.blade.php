@@ -123,9 +123,6 @@
                   <button class="btn btn-primary d-grid w-100" type="submit">Log In</button>
                 </div>
               </form>
-              <div class="mb-3">
-                <a href="{{route('loginortu')}}">Login sebagai orang tua</a>
-              </div>
             </div>
           </div>
           <!-- /Register -->

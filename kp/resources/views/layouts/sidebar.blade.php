@@ -9,22 +9,13 @@
 
 <ul class="menu-inner py-1">
   <!-- Dashboard -->
-  <li class="{{ (request()->is('/')) ? 'menu-item active': 'menu-item'}}">
+  {{-- <li class="{{ (request()->is('/')) ? 'menu-item active': 'menu-item'}}">
     <a href="{{ url('/') }}" class="menu-link">
       <i class="menu-icon bx bx-grid-alt"></i>
       <div data-i18n="Analytics">Dashboard</div>
     </a>
-  </li>
+  </li> --}}
 
-
-  @if (str_contains(Auth::user()->role, 'admin'))
-  <li class="{{ (request()->is('admin*')) ? 'menu-item active': 'menu-item'}}">
-    <a href="{{ url('admin') }}" class="menu-link">
-      <i class="menu-icon tf-icons bx bx-male"></i>
-      <div data-i18n="Analytics">Admin</div>
-    </a>
-  </li>
-  @endif
 
   @if (str_contains(Auth::user()->role, 'admin'))
   <li class="{{ (request()->is('pengajar*')) ? 'menu-item active': 'menu-item'}}">

@@ -40,18 +40,10 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    protected function authenticated(Request $request, $user)
+    protected function authenticated(Request $request)
     {
         
-        if ($user->hasRole('admin')) {
-            return redirect()->route('admin.index');
-        } elseif (($user->hasRole('peserta'))||($user->hasRole('pengajar'))) {
-            return redirect()->route('pelatihan.index');
-        } elseif ($user->hasRole('orang_tua')) {
-            return redirect()->route('pelatihan.index');
-        } else {
-            return redirect('/');
-        }
+        return route('pelatihan.index');
     }
 
     public function logout(Request $request)

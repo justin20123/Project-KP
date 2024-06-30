@@ -149,6 +149,19 @@
 
 @section('content')
 
+
+@endsection
+@section('menu')
+<div class="portlet-title">
+    <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
+        List Pelatihan
+    </div>
+
+    <div style="float: right; margin: 15px;">
+        <a href="{{url('pelatihan/create')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</a>
+    </div>
+
+</div>
 @if (session('status'))
 <div class="alert alert-success">{{session('status')}}</div>
 @endif
@@ -160,10 +173,9 @@
                 <th>#</th>
                 <th>Nama</th>
                 <th>Deskripsi</th>
-                <th>Nomor Pertemuan</th>
                 <th>Jadwal Pelatihan</th>
                 <th>Nomor Angkatan</th>
-                <th>Detail</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
@@ -187,18 +199,6 @@
             @endif
         </tbody>
     </table>
-</div>
-@endsection
-@section('menu')
-<div class="portlet-title">
-    <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
-        List Pelatihan
-    </div>
-
-    <div style="float: right; margin: 15px;">
-        <a href="{{url('pelatihan/create')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</a>
-    </div>
-
 </div>
 @endsection
 

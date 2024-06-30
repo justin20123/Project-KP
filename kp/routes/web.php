@@ -7,6 +7,7 @@ use App\Http\Controllers\OrangtuaController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PengajarController;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Auth::routes();
 
 

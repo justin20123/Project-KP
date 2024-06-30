@@ -14,7 +14,7 @@ class AddIdPengajarToPelatihanTable extends Migration
     public function up()
     {
         Schema::table('pelatihan', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_pengajar');
+            $table->unsignedBigInteger('id_pengajar')->default(0);
             $table->foreign('id_pengajar')->references('id')->on('users');
         });
     }

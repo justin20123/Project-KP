@@ -20,8 +20,8 @@ class PesertaController extends Controller
     public function index()
     {
         $peserta = DB::table('users')
-        ->select('users.*', 'orang_tua.nama as namaorangtua')
-        ->join('orang_tua', 'users.id', '=', 'orang_tua.id_peserta')
+        ->select('users.*')
+        ->where('users.role','=','peserta')
         ->get();
         return view('peserta.index', compact('peserta'));
     }

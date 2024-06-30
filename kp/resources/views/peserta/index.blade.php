@@ -16,9 +16,6 @@ use Carbon\Carbon;
     @endif
 
 </div>
-@endsection
-@section('content')
-
 @if (session('status'))
 <div class="alert alert-success">{{session('status')}}</div>
 @endif
@@ -27,15 +24,12 @@ use Carbon\Carbon;
     <table id="peserta" class="table table-striped" style="width:100%">
         <thead class="table-border-bottom-0">
             <tr>
-                <th>Nomor</th>
+                <th>#</th>
                 <th>Nama Lengkap</th>
                 <th>Alamat</th>
                 <th>Email</th>
                 <th>Umur</th>
-                <th>Nama Orang Tua</th>
-                @if(str_contains(Auth::user()->role, 'admin'))
                     <th>Edit</th>
-                @endif
             </tr>
         </thead>
         <tbody>
@@ -52,22 +46,18 @@ use Carbon\Carbon;
                 <td>{{ $p->alamat }}</td>
                 <td>{{ $p->email }}</td>
                 <td>{{ $p->umur }}</td>
-                <td>{{ $p->namaorangtua }}</td>
+                
 
-                @if(str_contains(Auth::user()->role, 'admin'))
                     <td class="text-center"><a href="{{ route('peserta.edit', $p->id) }}"
                             class="btn btn-sm btn-primary"><i class='bx bx-edit-alt'></i></a>
                     </td>
-                @endif
             </tr>
             @endforeach
             @endif
         </tbody>
     </table>
 </div>
-
 @endsection
-
 
 @section('script')
 <script>
