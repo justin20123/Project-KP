@@ -1,13 +1,13 @@
 
 @extends('layouts.sneat')
 
+
+@if((Auth::user()->role == 'peserta') || (Auth::user()->role == 'pengajar'))
 @section('content')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 @if (session('status'))
 <div class="alert alert-success">{{session('status')}}</div>
 @endif
-
-@if((Auth::user()->role == 'peserta') || (Auth::user()->role == 'pengajar'))
 
 <section>
     <div class="modal fade" id="modal-buka-absen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -101,7 +101,7 @@
                             <button onclick="tutup_absensi()" style="border: none;background-color:#ff0103 ">Tutup absensi</button>
                             @endif
                             @if(str_contains(Auth::user()->role, 'peserta'))
-                            <button onclick="do_absensi( {{ $pelatihan->id }} )" style="border: none; background-color:#8080FF">Absen</button>
+                            <button onclick="do_absensi( {{ $p->id }} )" style="border: none; background-color:#8080FF">Absen</button>
                             <button onclick="lihat_absensi('peserta')" style="border: none;">Lihat kehadiran</button>
                             @endif
 
@@ -146,20 +146,6 @@
 @endif
 
 @if(Auth::user()->role == 'admin')
-@section('menu')
-<div class="portlet-title">
-    <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
-        List Pelatihan
-    </div>
-
-    @if(str_contains(Auth::user()->role, 'admin'))
-    <div style="float: right; margin: 15px;">
-        <a href="{{url('pelatihan/create')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</a>
-    </div>
-    @endif
-
-</div>
-@endsection
 
 @section('content')
 
@@ -193,11 +179,9 @@
                 <td>{{ $p->deskripsi }}</td>
                 <td>{{ $p->jadwal_pelatihan }}</td>
                 <td>{{ $p->nomor_angkatan }}</td>
-                @if(str_contains(Auth::user()->role, 'admin'))
                     <td class="text-center"><a href="{{ route('pelatihan.edit', $p->id) }}"
                         class="btn btn-sm btn-primary"><i class='bx bx-edit-alt'></i></a>
                     </td>
-                @endif
             </tr>
             @endforeach
             @endif
@@ -205,6 +189,20 @@
     </table>
 </div>
 @endsection
+@section('menu')
+<div class="portlet-title">
+    <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
+        List Pelatihan
+    </div>
+
+    <div style="float: right; margin: 15px;">
+        <a href="{{url('pelatihan/create')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</a>
+    </div>
+
+</div>
+@endsection
+
+
 
 
 @section('script')
