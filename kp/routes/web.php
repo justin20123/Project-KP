@@ -3,6 +3,7 @@
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\JadwalpelatihanController;
 use App\Http\Controllers\OrangtuaController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\PesertaController;
@@ -26,6 +27,7 @@ Auth::routes();
 
 
 Route::resource('pelatihan', PelatihanController::class);
+Route::resource('jadwalpelatihan', JadwalpelatihanController::class);
 //absensi
 Route::post('/doAbsensi', [AbsensiController::class, 'doAbsensi'])->name('absensi.doAbsensi');
 Route::resource('absensi', AbsensiController::class);

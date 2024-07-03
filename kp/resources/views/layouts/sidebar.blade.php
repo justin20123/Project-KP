@@ -49,6 +49,13 @@
       <div data-i18n="Analytics">Daftar Pelatihan</div>
     </a>
   @endif
+  @if (str_contains(Auth::user()->role, 'admin'))
+  <li class="{{ (request()->is('jadwalpelatihan*')) ? 'menu-item active': 'menu-item'}}">
+    <a href="{{ route('jadwalpelatihan.index') }}" class="menu-link">
+      <i class='menu-icon tf-icon bx bxs-whiteboard'></i>
+      <div data-i18n="Analytics">Jadwal Pelatihan</div>
+    </a>
+  @endif
 
   @if (str_contains(Auth::user()->role, 'peserta'))
   <li class="{{ (request()->is('absensi*')) ? 'menu-item active': 'menu-item'}}">

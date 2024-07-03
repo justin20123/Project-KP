@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKehadiranTable extends Migration
+class CreateJadwalPelatihanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateKehadiranTable extends Migration
      */
     public function up()
     {
-        Schema::create('kehadiran', function (Blueprint $table) {
+        Schema::create('jadwal_pelatihan', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('nomor_pertemuan');
-            $table->enum('status', ["hadir", "alfa", "sakit", "ijin"]);
-            $table->tinyInteger('sudah_absen');
+            $table->date('tanggal_start');
+            $table->enum('jenis_pelatihan', ['kelompok','private']);
+            $table->enum('status', ['berjalan','selesai']);
+            $table->string('jadwal',20);
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateKehadiranTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kehadiran');
+        Schema::dropIfExists('jadwal_pelatihan');
     }
 }

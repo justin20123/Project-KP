@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIdPesertaToKehadiranTable extends Migration
+class AddIdPesertaToAbsensiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddIdPesertaToKehadiranTable extends Migration
      */
     public function up()
     {
-        Schema::table('kehadiran', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_peserta');
+        Schema::table('absensi', function (Blueprint $table) {
+            $table->unsignedBigInteger('id_peserta')->default(0);
             $table->foreign('id_peserta')->references('id')->on('users');
         });
     }
@@ -26,7 +26,7 @@ class AddIdPesertaToKehadiranTable extends Migration
      */
     public function down()
     {
-        Schema::table('kehadiran', function (Blueprint $table) {
+        Schema::table('absensi', function (Blueprint $table) {
             $table->dropForeign(['id_peserta']);
             $table->dropColumn('id_peserta');
         });

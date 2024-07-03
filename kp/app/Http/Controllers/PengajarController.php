@@ -125,5 +125,5 @@ class PengajarController extends Controller
     public function destroy(Pengajar $pengajar)
     {
        
-    }
+    }   
 }

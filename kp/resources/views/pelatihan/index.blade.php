@@ -173,15 +173,14 @@
                 <th>#</th>
                 <th>Nama</th>
                 <th>Deskripsi</th>
-                <th>Jadwal Pelatihan</th>
-                <th>Nomor Angkatan</th>
+                <th>Jumlah Pertemuan</th>
                 <th>Edit</th>
             </tr>
         </thead>
         <tbody>
             @if (count($pelatihan) == 0)
             <tr>
-                <td class="text-center" colspan="8">Tidak ada Pelatihan yang terdata</td>
+                <td class="text-center" colspan="8">Tidak ada Jadwal Pelatihan yang terdata</td>
             </tr>
             @else
             @foreach ($pelatihan as $p)
@@ -189,8 +188,7 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $p->nama }}</td>
                 <td>{{ $p->deskripsi }}</td>
-                <td>{{ $p->jadwal_pelatihan }}</td>
-                <td>{{ $p->nomor_angkatan }}</td>
+                <td>{{ $p->jumlah_pertemuan }}</td>
                     <td class="text-center"><a href="{{ route('pelatihan.edit', $p->id) }}"
                         class="btn btn-sm btn-primary"><i class='bx bx-edit-alt'></i></a>
                     </td>

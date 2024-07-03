@@ -24,8 +24,7 @@ class PelatihanController extends Controller
     {
         if (Auth::user()->role == "admin") {
             $pelatihan = DB::table('pelatihan')
-                ->select('pelatihan.*')
-                ->join('users','users.id','=','pelatihan.id_pengajar')
+                ->select('*')
                 ->get();
         }
         else if (Auth::user()->role == "pengajar") {
@@ -53,11 +52,7 @@ class PelatihanController extends Controller
      */
     public function create()
     {
-        $pengajar = DB::table("users")
-        ->select('*')
-        ->where('role','=','pengajar')
-        ->get();
-        return view('pelatihan.create', ['pengajar'=>$pengajar]);
+        return view('pelatihan.create');
     }
 
     /**
@@ -69,17 +64,15 @@ class PelatihanController extends Controller
     public function store(Request $request)
     {
         $pelatihan = new Pelatihan();
-        $pelatihan->nama = $request->get('pelatihan');
+        $pelatihan->nama = $request->get('nama');
         $pelatihan->deskripsi = $request->get('deskripsi');
-        $pelatihan->jadwal_pelatihan = $request->get('hari_pertemuan').','.$request->get('waktu_awal_pertemuan').'-'.$request->get('waktu_akhir_pertemuan');
-        $pelatihan->nomor_angkatan = 1; //pelatihan baru
+        $pelatihan->jumlah_pertemuan = $request->get('jumlah_pertemuan');
 
         $pelatihan->created_at = now("Asia/Bangkok");
         $pelatihan->updated_at = now("Asia/Bangkok");
 
-        $pelatihan->id_pengajar = $request->get('pengajar'); 
         $pelatihan->save();
-        return redirect()->route('pelatihan.index')->with('status', 'New pelatihan ' .  $pelatihan->nama . ' is already inserted');
+        return redirect()->route('pelatihan.index')->with('status', 'Pelatihan ' .  $pelatihan->nama . ' berhasil ditambahkan');
     }
 
     /**
@@ -115,14 +108,14 @@ class PelatihanController extends Controller
     public function update(Request $request, $id)
     {      
         $pelatihan = Pelatihan::find($id);
-        $pelatihan->nama = $request->get('pelatihan');
+        $pelatihan->nama = $request->get('nama');
         $pelatihan->deskripsi = $request->get('deskripsi');
-        $pelatihan->jadwal_pelatihan = $request->get('hari_pertemuan').','.$request->get('waktu_awal_pertemuan').'-'.$request->get('waktu_akhir_pertemuan');
+        $pelatihan->jumlah_pertemuan = $request->get('jumlah_pertemuan');
 
         $pelatihan->updated_at = now("Asia/Bangkok");
 
         $pelatihan->save();
-        return redirect()->route('pelatihan.index')->with('status', 'Pelatihan '  .  $pelatihan->nama . ' is already updated');
+        return redirect()->route('pelatihan.index')->with('status', 'Pelatihan '  .  $pelatihan->nama . ' berhasil diupdate');
     }
 
     /**

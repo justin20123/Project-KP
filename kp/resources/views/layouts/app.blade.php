@@ -22,6 +22,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('assets/vendor/css/core.css') }}" rel="stylesheet">
+
+    
 </head>
 <body>
     <div id="app">
