@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrangTuaTable extends Migration
+class CreatePesertaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateOrangTuaTable extends Migration
      */
     public function up()
     {
-        Schema::create('orang_tua', function (Blueprint $table) {
+        Schema::create('peserta', function (Blueprint $table) {
             $table->id();
             $table->string('nama',45);
-            $table->string('email',20)->unique();
-            $table->string('password',225);
+            $table->string('umur',225);
             $table->timestamps();
             $table->softDeletes();
 
@@ -32,6 +31,6 @@ class CreateOrangTuaTable extends Migration
     public function down()
     {
         
-        Schema::dropIfExists('orang_tua');
+        Schema::dropIfExists('peserta');
     }
 }

@@ -11,4 +11,9 @@ class Orangtua extends Model
     protected $table = 'orang_tua';
     
     protected $primaryKey = 'users_id';
+
+    public function peserta()
+    {
+        return $this->belongsTo(Users::class)->withTrashed();
+    }
 }

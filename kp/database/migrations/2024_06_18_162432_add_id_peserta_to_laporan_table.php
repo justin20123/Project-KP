@@ -15,7 +15,7 @@ class AddIdPesertaToLaporanTable extends Migration
     {
         Schema::table('laporan', function (Blueprint $table) {
             $table->unsignedBigInteger('id_peserta');
-            $table->foreign('id_peserta')->references('id')->on('users');
+            $table->foreign('id_peserta')->references('id')->on('peserta');
         });
     }
 

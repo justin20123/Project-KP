@@ -61,7 +61,7 @@ class Users extends Authenticatable
     }
 
 
-    public function peserta()
+    public function orang_tua()
     {
         return $this->hasOne(Peserta::class);
     }

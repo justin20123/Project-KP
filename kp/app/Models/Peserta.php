@@ -9,12 +9,9 @@ class Peserta extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama','alamat', 'email' ,'id_peserta', 'umur'];
+    protected $fillable = ['nama','alamat', 'umur' ,'id_orangtua'];
 
-    protected $table = 'users';
+    protected $table = 'peserta';
 
-    public function peserta()
-    {
-        return $this->belongsTo(Users::class)->withTrashed();
-    }
+    
 }

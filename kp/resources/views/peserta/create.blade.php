@@ -19,20 +19,16 @@
         <label>Nama</label>
         <input type="text" name="nama" class="form-control" id="nama" required value="{{ old('nama') }}">
 
-        <label>Alamat</label>
-        <textarea name="alamat" class="form-control" id="alamat" required>{{ old('alamat') }}</textarea>
-
-        <label>Email</label>
-        <input type="email" name="email" class="form-control" id="email" required value="{{ old('email') }}">
-
         <label>Umur</label>
-        <input type="text" name="umur" class="form-control" id="umur" required value="{{ old('umur') }}">
+        <input type="number" name="umur" class="form-control" id="umur" min="0" max="100" required value="{{ old('umur') }}">
 
-        <label>Password</label>
-        <input type="password" name="password" class="form-control" id="password" required value="{{ old('password') }}">
-        @error('password')
-            <div class="text-danger">{{ $message }}</div>
-        @enderror
+        <label>Orang tua</label>
+        <select name="id_orangtua" id="">
+            @foreach($orangtua as $o)
+                <option value="{{ $o->id }}">{{$o->nama}}</option>
+            @endforeach
+        </select>
+        <br>
     </div>
     <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
 </form>

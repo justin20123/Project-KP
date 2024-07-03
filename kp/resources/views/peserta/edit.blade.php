@@ -21,12 +21,20 @@
         <label>Nama</label>
         <input type="text" name="nama" class="form-control" id="nama" required value="{{ $user->nama }}">
 
-        <label>Alamat</label>
-        <textarea name="alamat" class="form-control" id="alamat" required>{{ $user->alamat }}</textarea>
-
         <label>Umur</label>
-        <input type="text" name="umur" class="form-control" id="umur" required value="{{ $user->umur }}">
+        <input type="number" name="umur" class="form-control" id="umur" min="0" max="100" required value="{{ $ser->umur }}">
 
+        <label for="">Orang tua</label>
+        <select name="id_orangtua" id="" required>
+            @foreach($orangtua as $o)
+            @if($peserta->id_orangtua == $o->id)
+            <option value="{{ $o->id }}" selected>{{$o->nama}}</option>
+        @else
+            <option value="{{ $o->id }}">{{$o->nama}}</option>
+        @endif
+            @endforeach
+        </select>
+        <br>
     </div>
     <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
 </form>

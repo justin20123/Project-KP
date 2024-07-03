@@ -21,10 +21,9 @@ class OrangtuaController extends Controller
     public function index()
     {
         
-        $orangtua = DB::table('orang_tua')
-        ->join('users','users.id' , '=', 'orang_tua.id_peserta')
-        ->select('orang_tua.nama as namaorangtua', 'orang_tua.email as emailorangtua', 'orang_tua.id as idorangtua', 'users.nama as namapeserta')
-        
+        $orangtua = DB::table('users')
+        ->select('*')
+        ->where('role','=','orang_tua')
         ->get();
     
         return view('orangtua.index', compact('orangtua'));
@@ -37,10 +36,7 @@ class OrangtuaController extends Controller
      */
     public function create()
     {
-        $peserta = DB::table('users')
-        ->where('role', '=', 'peserta')
-        ->get();
-        return view('orangtua.create', compact('peserta'));
+        return view('orangtua.create');
     }
 
     /**
@@ -62,16 +58,18 @@ class OrangtuaController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $orangtua = new Orangtua();
-        $orangtua->id_peserta = $request->get('peserta');
-        $orangtua->nama = $request->get('nama');
-        $orangtua->email = $request->get('email');
-        $orangtua->password = $request->get('password');
-        $orangtua->created_at = now("Asia/Bangkok");
-        $orangtua->updated_at = now("Asia/Bangkok");
-        $orangtua->save();
+        $users = new Users();
+        $users->nama = $request->get('nama');
+        $users->alamat = $request->get('alamat');
+        $users->email = $request->get('email');
+        $users->password = $request->get('password');
+        $users->role = "orang_tua";
+        $users->status = 1;
+        $users->created_at = now("Asia/Bangkok");
+        $users->updated_at = now("Asia/Bangkok");
+        $users->save();
 
-        return redirect()->route('orangtua.index')->with('status', 'New orangtua  ' .  $orangtua->nama . ' is already inserted');
+        return redirect()->route('orangtua.index')->with('status', 'Orangtua  ' .  $users->nama . ' berhasil ditambahkan');
     }
 
     /**
@@ -93,7 +91,7 @@ class OrangtuaController extends Controller
      */
     public function edit($id)
     {       
-        $orangtua = Orangtua::where('id', $id)->first();
+        $orangtua = Users::where('id', $id)->first();
         return view('orangtua.edit', compact('orangtua'));       
     }
 
@@ -106,17 +104,13 @@ class OrangtuaController extends Controller
      */
     public function update(Request $request, $id)
     {      
-        $orangtua = Orangtua::where('id', $id)->first();
+        $users = Users::where('id', $id)->first();
 
-        $orangtua->nama = $request->get('nama');
-        $orangtua->updated_at = now("Asia/Bangkok");
-        $orangtua->save();
+        $users->nama = $request->get('nama');
+        $users->alamat = $request->get('alamat');
+        $users->save();
 
-        $orangtua->nama = $request->get('nama');
-        $orangtua->updated_at = now("Asia/Bangkok");
-        $orangtua->save();
-
-        return redirect()->route('orangtua.index')->with('status', 'orangtua '  .  $orangtua->nama . ' is already updated');
+        return redirect()->route('orangtua.index')->with('status', 'Orangtua '  .  $users->nama . ' berhaso; diupdate');
     }
 
     /**

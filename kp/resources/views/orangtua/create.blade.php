@@ -19,6 +19,9 @@
         <label>Nama</label>
         <input type="text" name="nama" class="form-control" id="nama" required value="{{ old('nama') }}">
 
+        <label>Alamat</label>
+        <input type="textarea" name="alamat" class="form-control" id="alamat" required value="{{ old('alamat') }}">
+
         <label>Email</label>
         <input type="email" name="email" class="form-control" id="email" required value="{{ old('email') }}">
 
@@ -27,14 +30,6 @@
         @error('password')
             <div class="text-danger">{{ $message }}</div>
         @enderror
-
-        <label>Nama Peserta:</label>
-        <select id="peserta" name="peserta" class="form-control" required>
-            <option value="" disabled selected>Pilih Peserta</option>
-            @foreach ($peserta as $p)
-                <option value="{{ $p->id }}">{{ $p->nama }}</option>
-            @endforeach
-        </select>
     </div>
     <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
 </form>

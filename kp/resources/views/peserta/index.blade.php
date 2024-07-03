@@ -26,9 +26,8 @@ use Carbon\Carbon;
             <tr>
                 <th>#</th>
                 <th>Nama Lengkap</th>
-                <th>Alamat</th>
-                <th>Email</th>
                 <th>Umur</th>
+                <th>Orang Tua</th>
                     <th>Edit</th>
             </tr>
         </thead>
@@ -43,9 +42,8 @@ use Carbon\Carbon;
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $p->nama }}</td>
-                <td>{{ $p->alamat }}</td>
-                <td>{{ $p->email }}</td>
                 <td>{{ $p->umur }}</td>
+                <td>{{ $p->namaorangtua }}</td>
                 
 
                     <td class="text-center"><a href="{{ route('peserta.edit', $p->id) }}"

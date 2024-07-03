@@ -26,8 +26,9 @@ use Carbon\Carbon;
             <tr>
                 <th>#</th>
                 <th>Nama</th>
+                <th>Alamat</th>
                 <th>Email</th>
-                <th>Nama Peserta</th>
+                
 
                 @if(str_contains(Auth::user()->role, 'admin'))
                     <th>Edit</th>
@@ -44,12 +45,12 @@ use Carbon\Carbon;
             @foreach ($orangtua as $ot)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $ot->namaorangtua }}</td>
-                <td>{{ $ot->emailorangtua }}</td>
-                <td>{{ $ot->namapeserta }}</td>
+                <td>{{ $ot->nama }}</td>
+                <td>{{ $ot->alamat }}</td>
+                <td>{{ $ot->email }}</td>
                
                 @if(str_contains(Auth::user()->role, 'admin'))
-                    <td class="text-center"><a href="{{ route('orangtua.edit', $ot->idorangtua) }}"
+                    <td class="text-center"><a href="{{ route('orangtua.edit', $ot->id) }}"
                         class="btn btn-sm btn-primary"><i class='bx bx-edit-alt'></i></a>
                     </td>
                 @endif

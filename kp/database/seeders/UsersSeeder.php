@@ -49,10 +49,10 @@ class UsersSeeder extends Seeder
             "yanto@email.com"
         ];
 
-        $umur = [21,11,29,30,25];
+        $umur = [null,null,29,30,25];
         $role = [
-            "peserta",
-            "peserta",
+            "orang_tua",
+            "orang_tua",
             "pengajar",
             "pengajar",
             "admin",

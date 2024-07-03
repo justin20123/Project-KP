@@ -17,12 +17,20 @@ class PesertaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id_orangtua = null)
     {
-        $peserta = DB::table('users')
-        ->select('users.*')
-        ->where('users.role','=','peserta')
-        ->get();
+        if($id_orangtua == null){
+            $peserta = DB::table('peserta')
+            ->join('users', 'users.id','=','peserta.id_orangtua')
+            ->select('peserta.*', 'users.nama as namaorangtua')
+            ->get();
+        }else{
+            $peserta = DB::table('peserta')
+            ->join('users', 'id','=','id_orangtua')
+            ->select('peserta.*', 'users.nama as namaorangtua')
+            ->where('users.id', '=', $id_orangtua)
+            ->get();
+        }
         return view('peserta.index', compact('peserta'));
     }
 
@@ -33,7 +41,11 @@ class PesertaController extends Controller
      */
     public function create()
     {
-        return view('peserta.create');
+        $orangtua = DB::table('users')
+        ->select("*")
+        ->where('role','=','orang_tua')
+        ->get();
+        return view('peserta.create',compact('orangtua'));
     }
 
     /**
@@ -44,31 +56,18 @@ class PesertaController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'password' => 'required|min:8',
-        ], [
-            'password.required' => 'Password harus diisi.',
-            'password.min' => 'Password minimal harus terdiri dari 8 karakter.',
-        ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        $peserta = new Peserta();
+        $peserta->nama = $request->get('nama');
+        $peserta->umur = $request->get('umur');
 
-        $users = new Users();
-        $users->nama = $request->get('nama');
-        $users->alamat = $request->get('alamat');
-        $users->email = $request->get('email');
-        $users->umur = $request->get('umur');
-        $users->password = Hash::make($request->get('password'));
-        $users->role = "Peserta";
-        $users->status = 1;
-        $users->last_login = now("Asia/Bangkok");
-        $users->created_at = now("Asia/Bangkok");
-        $users->updated_at = now("Asia/Bangkok");
-        $users->save();
+        $peserta->created_at = now("Asia/Bangkok");
+        $peserta->updated_at = now("Asia/Bangkok");
 
-        return redirect()->route('peserta.index')->with('status', 'New peserta  ' .  $users->nama . ' is already inserted');
+        $peserta->id_orangtua = $request->get('id_orangtua');
+        $peserta->save();
+
+        return redirect()->route('peserta.index')->with('message', 'Peserta ' .  $peserta->nama . ' berhasil ditambahkan');
     }
 
     /**
@@ -90,8 +89,8 @@ class PesertaController extends Controller
      */
     public function edit($id)
     {       
-        $user = Users::find($id);
-        return view('peserta.edit', compact('user'));       
+        $peserta = Peserta::find($id);
+        return view('peserta.edit', compact('peserta'));       
     }
 
     /**
@@ -103,15 +102,16 @@ class PesertaController extends Controller
      */
     public function update(Request $request, $id)
     {      
-        $user = Users::find($id); 
+        $peserta = Peserta::find($id); 
 
-        $user->nama = $request->get('nama');
-        $user->alamat = $request->get('alamat');
-        $user->umur = $request->get('umur');
-        $user->updated_at = now("Asia/Bangkok");
-        $user->save();
+        $peserta = new Peserta();
+        $peserta->nama = $request->get('nama');
+        $peserta->umur = $request->get('umur');
+        $peserta->id_peserta = $request->get('id_peserta');
+        $peserta->updated_at = now("Asia/Bangkok");
+        $peserta->save();
 
-        return redirect()->route('peserta.index')->with('status', 'peserta '  .  $user->nama . ' is already updated');
+        return redirect()->route('peserta.index')->with('message', 'Peserta '  .  $peserta->nama . ' berhasil diupdate');
     }
 
     /**
