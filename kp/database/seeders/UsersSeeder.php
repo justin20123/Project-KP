@@ -48,8 +48,6 @@ class UsersSeeder extends Seeder
             "yante@email.com",
             "yanto@email.com"
         ];
-
-        $umur = [null,null,29,30,25];
         $role = [
             "orang_tua",
             "orang_tua",
@@ -65,7 +63,6 @@ class UsersSeeder extends Seeder
                 'password' => Hash::make($password[$i]),
                 'alamat' => $alamat[$i],
                 'email' => $email[$i],
-                'umur' => $umur[$i],
                 'role' => $role[$i],
                 'status' => 1,
                 'last_login' => null,

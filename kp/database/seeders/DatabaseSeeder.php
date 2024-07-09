@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PesertaSeeder::class);
         $this->call(PelatihanSeeder::class);
         
-        $this->call(JadwalpelatihanSeeder::class);
-        $this->call(Kelas_diikutiSeeder::class);
+        $this->call(PeriodeSeeder::class);
+        $this->call(LaporanSeeder::class);
 
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIdjadwalpelatihanToAbsensiTable extends Migration
+class AddIdJadwalKelasToAbsensiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddIdjadwalpelatihanToAbsensiTable extends Migration
     public function up()
     {
         Schema::table('absensi', function (Blueprint $table) {
-            $table->unsignedBigInteger('idjadwalpelatihan')->default(0);
-            $table->foreign('idjadwalpelatihan')->references('id')->on('jadwal_pelatihan');
+            $table->unsignedBigInteger('idjadwalkelas');
+            $table->foreign('idjadwalkelas')->references('id')->on('jadwal_kelas');
         });
     }
 
@@ -27,8 +27,8 @@ class AddIdjadwalpelatihanToAbsensiTable extends Migration
     public function down()
     {
         Schema::table('absensi', function (Blueprint $table) {
-            $table->dropForeign(['idjadwalpelatihan']);
-            $table->dropColumn('idjadwalpelatihan');
+            $table->dropForeign(['idjadwalkelas']);
+            $table->dropColumn('idjadwalkelas');
         });
     }
 }

@@ -19,7 +19,6 @@ class CreateUsersTable extends Migration
             $table->string('nama', 30);
             $table->string('alamat', 45);
             $table->string('email', 20)->unique();
-            $table->integer('umur')->default(0)->nullable();
             $table->enum('role', ["orang_tua", "pengajar", "admin"])->default("orang_tua");
             $table->tinyInteger('status');
             $table->dateTime('last_login')->nullable();

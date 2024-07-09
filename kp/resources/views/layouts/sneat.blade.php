@@ -26,6 +26,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Messenger Academy</title>
 
@@ -57,6 +58,7 @@
     <link rel="stylesheet" href="{{ asset('../assets/vendor/libs/apex-charts/apex-charts.css')}}" />
 
     <!-- Page CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Helpers -->
     <script src="{{ asset('../assets/vendor/js/helpers.js')}}"></script>
@@ -68,6 +70,7 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('../assets/DataTables/datatables.css') }}">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js" integrity="sha512-u3fPA7V8qQmhBPNT5quvaXVa1mnnLSXUep5PS1qo5NRzHwG19aHmNJnj1Q8hpA/nBWZtZD4r4AX6YOt5ynLN2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   </head>
 

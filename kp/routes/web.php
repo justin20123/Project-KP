@@ -3,12 +3,16 @@
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\JadwalKelasController;
 use App\Http\Controllers\JadwalpelatihanController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\OrangtuaController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PengajarController;
+use App\Http\Controllers\PeriodeController;
 use App\Http\Middleware\Authenticate;
+use App\Models\JadwalKelas;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -27,15 +31,19 @@ Auth::routes();
 
 
 Route::resource('pelatihan', PelatihanController::class);
-Route::resource('jadwalpelatihan', JadwalpelatihanController::class);
+Route::resource('periode', PeriodeController::class);
+Route::resource('jadwalkelas', JadwalKelasController::class);
+Route::get('/laporan/{id}', [LaporanController::class, 'daftarpeserta'])->name('laporan.daftarpeserta');
+Route::get('/laporan/{idperiode}/{idpeserta}', [LaporanController::class, 'isievaluasi'])->name('laporan.isievaluasi');
+Route::put('/updateevaluasi', [LaporanController::class, 'updateevaluasi'])->name('laporan.updateevaluasi');
+Route::resource('laporan', LaporanController::class);
 //absensi
-Route::post('/doAbsensi', [AbsensiController::class, 'doAbsensi'])->name('absensi.doAbsensi');
+Route::get('/lihat_absensi/{id}', [AbsensiController::class, 'lihat_absensi'])->name('absensi.lihat_absensi');
+Route::get('/edit_absensi/{id}', [AbsensiController::class, 'edit_absensi'])->name('absensi.edit_absensi');
+Route::post('/hadirsemua', [AbsensiController::class, 'hadirsemua'])->name('absensi.hadirsemua');
+Route::post('/alfasemua', [AbsensiController::class, 'alfasemua'])->name('absensi.alfasemua');
+Route::post('/updatestatuskehadiran', [AbsensiController::class, 'updatestatuskehadiran'])->name('absensi.updatestatuskehadiran');
 Route::resource('absensi', AbsensiController::class);
-
-//admin
-Route::resource('admin', AdminController::class);
-Route::post('admin/aktifkan', [AdminController::class, 'aktifkan'])->name('admin.aktifkan');
-Route::post('admin/nonaktifkan', [AdminController::class, 'nonaktifkan'])->name('admin.nonaktifkan');
 
 //peserta
 
@@ -58,8 +66,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('/register', [PengajarController::class, 'formRegister'])->name('admin.peserta.register');
     Route::post('/registeraccount', [PengajarController::class, 'register'])->name('admin.peserta.registeraccount');
     //register peserta
-    Route::get('/register', [PesertaController::class, 'formRegister'])->name('pengajar.pengajar.register');
-    Route::post('/registeraccount', [PesertaController::class, 'register'])->name('pengajar.pengajar.registeraccount');
+
 });
 
 Route::group(['middleware' => ['auth', 'role:peserta']], function () {
@@ -72,8 +79,8 @@ Route::get('/', function () {
     if ($user && $user->hasRole('admin')) {
         return redirect()->view('/admin');
     } 
-    else if (($user && $user->hasRole('peserta')) || ($user && $user->hasRole('pengajar'))) {
-        return redirect()->route('pelatihan.index');
+    else if (($user && $user->hasRole('orang_tua')) || ($user && $user->hasRole('pengajar'))) {
+        return redirect()->route('periode.index');
     } 
     else {
         return redirect()->route('login');

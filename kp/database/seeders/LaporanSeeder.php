@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class Kelas_diikutiSeeder extends Seeder
+class LaporanSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class Kelas_diikutiSeeder extends Seeder
      */
     public function run()
     {
-        $idjadwalpelatihan = [
+        $idPeriode = [
             1,2,2,3,4,
         ];
         $id_peserta = [
@@ -30,9 +30,10 @@ class Kelas_diikutiSeeder extends Seeder
         
 
         for ($i = 0; $i < 5; $i++) {
-            DB::table('kelas_diikuti')->insert([
-                'idjadwalpelatihan' => $idjadwalpelatihan[$i],
+            DB::table('laporan')->insert([
+                'idPeriode' => $idPeriode[$i],
                 'id_peserta' =>$id_peserta[$i],
+                'evaluasi' => ''
             ]);
         }
     }

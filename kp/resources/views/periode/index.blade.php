@@ -13,7 +13,7 @@
                                 <h4 class="modal-title">Buka Absensi</h4>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('absensi.store') }}" class="col col-6"
+                                <form action="{{ route('jadwalkelas.store') }}" class="col col-6"
                                     method="post">
                                     @csrf
                                     <label for="">Pertemuan ke</label>
@@ -23,7 +23,7 @@
                                         <option value="reguler">Reguler</option>
                                         <option value="pengganti">Pengganti</option>
                                     </select>
-                                    <div id="buka-absen-id-jadwal-pelatihan"></div>
+                                    <div id="buka-absen-id-periode"></div>
                                     <input type="submit" value="submit" class="btn btn-primary">
                                     
                                 </form>
@@ -50,11 +50,11 @@
 @endif
 <div class="portlet-title">
     <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
-        List Jadwal Pelatihan
+        List Periode
     </div>
 
     <div style="float: right; margin: 15px;">
-        <a href="{{url('jadwalpelatihan/create')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</a>
+        <a href="{{url('periode/create')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</a>
     </div>
 
 </div>
@@ -71,41 +71,90 @@
                 <th>Nama Pengajar</th>
                 <th>Tanggal Start</th>
                 <th>Jenis Pelatihan</th>
+                <th>Kelas Paralel</th>
                 <th>Status</th>
                 <th>Jadwal Pelatihan</th>
                 <th>Edit</th>
                 <th>Buka Absensi</th>
+                <th>Lihat Anggota</th>
             </tr>
         </thead>
         <tbody>
-            @if (count($jadwalpelatihan) == 0)
+            @if (count($periode) == 0)
             <tr>
                 <td class="text-center" colspan="8">Tidak ada Jadwal Pelatihan yang terdata</td>
             </tr>
             @else
-            @foreach ($jadwalpelatihan as $jp)
+            @foreach ($periode as $periode)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $jp->namapelatihan }}</td>
-                <td>{{ $jp->namapengajar }}</td>
-                <td>{{ $jp->tanggal_start }}</td>
-                <td>{{ $jp->jenis_pelatihan }}</td>
-                <td>{{ $jp->status }}</td>
-                <td>{{ $jp->jadwal }}</td>
+                <td>{{ $periode->namapelatihan }}</td>
+                <td>{{ $periode->namapengajar }}</td>
+                <td>{{ $periode->tanggal_start }}</td>
+                <td>{{ $periode->jenis_pelatihan }}</td>
+                <td>{{ $periode->kelas_paralel }}</td>
+                <td>{{ $periode->status }}</td>
+                <td>{{ $periode->jadwal }}</td>
                     <td class="text-center">
-                        <a href="{{ route('jadwalpelatihan.edit', $jp->id) }}" class="btn btn-sm btn-primary"><i class='bx bx-edit-alt'></i></a>
+                        <a href="{{ route('periode.edit', $periode->id) }}" class="btn btn-sm btn-primary"><i class='bx bx-edit-alt'></i></a>
                     </td>
-                    <td><button onclick='buka_absensi({{ $jp->id }}, {{ $jp->jumlahpertemuan }})' id='btn-buka-absen-{{ $jp->id }}' data-toggle="modal" style="border: none;background-color:#74a7ff"  role="button">Buka Absensi</button></td>
+                    <td><button onclick='buka_absensi({{ $periode->id }}, {{ $periode->jumlahpertemuan }})' id='btn-buka-absen-{{ $periode->id }}' data-toggle="modal" style="border: none;background-color:#74a7ff"  role="button">Buka Absensi</button></td>
+                    <td><a href="{{route('laporan.daftarpeserta', $periode->id )}}" class="btn btn-success btn-sm">Lihat Anggota</a></td>
             </tr>
             @endforeach
             @endif
         </tbody>
     </table>
 </div>
+
+@endif
+
+@if(Auth::user()->role == 'pengajar')
+@section('menu')
+<div class="portlet-title">
+    <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
+        List Periode
+    </div>
+</div>
+@if(session("message"))
+<div class="alert alert-success  alert-dismissible fade show" role="alert">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>{{ session("message") }}</strong> 
+</div>
+@endif
+@if(session("error") != null)
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>{{ session("error") }}</strong> 
+</div>
+@endif
+<div class="container px-2 px-lg-2 mt-2">
+<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+@foreach ($periode as $p)
+<div class="col mb-5">
+    <div class="card h-100">
+        <div class="card-body p-4">
+            <div class="text-center">
+                <h5 class="fw-bolder">{{ $p->namapelatihan }}</h5>
+                <h5 class="fw-bolder">{{ $p->jadwal }}</h5>
+                <hr class="hr" />
+                
+                <a href="{{route('absensi.lihat_absensi', $p->id )}}" class="btn btn-success btn-sm">Lihat kehadiran</a>
+                <hr class="hr" />
+
+                <a href="{{route('laporan.daftarpeserta ', $p->id )}}" class="btn btn-success btn-sm">Lihat Evaluasi</a>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+</div>
+</div>
+@endif
 @endsection
-
-
-
 
 @section('script')
 <script>
@@ -114,11 +163,10 @@
             "scrollX": true
         });
     });
-    function buka_absensi(idjadwalpelatihan, jumlah_pertemuan) {
+    function buka_absensi(idperiode, jumlah_pertemuan) {
         $("#modal-buka-absen").modal("show");
         $("#buka-absen-nomor-pertemuan").html("<input type='number' name='nomor_pertemuan' max="+jumlah_pertemuan+" min=0' required placeholder='Nomor pertemuan'>");
-        $("#buka-absen-id-jadwal-pelatihan").html("<input type='hidden' name='idjadwalpelatihan' value='"+idjadwalpelatihan+"' required > ");
+        $("#buka-absen-id-periode").html("<input type='hidden' name='idperiode' value='"+idperiode+"' required > ");
     }
 </script>
 @endsection
-@endif

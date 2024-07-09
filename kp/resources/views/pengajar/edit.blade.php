@@ -23,8 +23,6 @@
         <label>Alamat</label>
         <textarea name="alamat" class="form-control" id="alamat" required>{{ $user->alamat }}</textarea>    
 
-        <label>Umur</label>
-        <input type="number" name="umur" class="form-control" id="umur" max="100" min="0" required value="{{ $user->umur }}">
     </div>
     <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
 </form>

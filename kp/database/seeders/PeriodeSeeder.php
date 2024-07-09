@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class JadwalpelatihanSeeder extends Seeder
+class PeriodeSeeder extends Seeder
 {
     /**s
      * Run the database seeds.
@@ -43,7 +43,9 @@ class JadwalpelatihanSeeder extends Seeder
             "Selasa,13.00-15.00",
             "Rabu,09.00-12.00"
         ];
-
+        $kelas_paralel = [
+            "A", "A", "B", "A", "A"
+        ];
         $idpelatihan = [
             1,2,2,3,4,
         ];
@@ -59,11 +61,12 @@ class JadwalpelatihanSeeder extends Seeder
         
 
         for ($i = 0; $i < 5; $i++) {
-            DB::table('jadwal_pelatihan')->insert([
+            DB::table('periode')->insert([
                 'tanggal_start' => $tanggal_start[$i],
                 'status' => $status[$i],
                 'jenis_pelatihan' => $jenis_pelatihan[$i],
                 'jadwal' => $jadwal[$i],
+                'kelas_paralel' => $kelas_paralel[$i],
                 'idpelatihan' => $idpelatihan[$i],
                 'id_pengajar' =>$id_pengajar[$i],
             ]);

@@ -14,7 +14,7 @@
 @section('menu')
 <div class="portlet-title">
     <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
-        Add New  Jadwal Pelatihan
+        Add New Periode
     </div> 
 </div>
 @if(Session::has('alert'))
@@ -22,7 +22,7 @@
         {{ Session::get('alert') }}
     </div>
 @endif
-<form method="POST" action="{{ route('jadwalpelatihan.store') }}">
+<form method="POST" action="{{ route('periode.store') }}">
     @csrf
     <div class="form-group">
         <label for="">Tanggal Start</label>
@@ -33,6 +33,8 @@
             <option value="Private">Private</option>
         </select>
         <br>
+        <label for="">Kelas Paralel</label>
+        <input type="text" name="kelas_paralel" class="form-control" id="kelas_paralel" maxlength="2" size="2" required value="{{ old('kelas_paralel') }}">
         <label>Pengajar</label>
         <select name="id_pengajar" id="">
             @foreach($pengajar as $pj)

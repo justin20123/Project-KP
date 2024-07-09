@@ -25,8 +25,6 @@
         <label>Email</label>
         <input type="email" name="email" class="form-control" id="email" required value="{{ old('email') }}">
 
-        <label>Umur</label>
-        <input type="text" name="umur" class="form-control" id="umur" required value="{{ old('umur') }}">
 
         <label>Password</label>
         <input type="password" name="password" class="form-control" id="password" required value="{{ old('password') }}">

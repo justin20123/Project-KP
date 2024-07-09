@@ -28,7 +28,6 @@
                 <th>Nama Lengkap</th>
                 <th>Alamat</th>
                 <th>Email</th>
-                <th>Umur</th>
                 <th>Last Login</th>
                 @if(str_contains(Auth::user()->role, 'pengajar'))
                     <th>Edit</th>
@@ -47,7 +46,6 @@
                 <td>{{ $p->nama }}</td>
                 <td>{{ $p->alamat }}</td>
                 <td>{{ $p->email }}</td>
-                <td>{{ $p->umur }}</td>
                 <td>{{ $p->last_login }}</td>
 
                 @if(str_contains(Auth::user()->role, 'pengajar'))

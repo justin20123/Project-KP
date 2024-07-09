@@ -45,33 +45,20 @@
   @if (str_contains(Auth::user()->role, 'admin'))
   <li class="{{ (request()->is('pelatihan*')) ? 'menu-item active': 'menu-item'}}">
     <a href="{{ route('pelatihan.index') }}" class="menu-link">
-      <i class='menu-icon tf-icon bx bxs-whiteboard'></i>
+      <i class='menu-icon fa-solid fa-chalkboard'></i>
       <div data-i18n="Analytics">Daftar Pelatihan</div>
     </a>
   @endif
-  @if (str_contains(Auth::user()->role, 'admin'))
-  <li class="{{ (request()->is('jadwalpelatihan*')) ? 'menu-item active': 'menu-item'}}">
-    <a href="{{ route('jadwalpelatihan.index') }}" class="menu-link">
-      <i class='menu-icon tf-icon bx bxs-whiteboard'></i>
-      <div data-i18n="Analytics">Jadwal Pelatihan</div>
+  @if (str_contains(Auth::user()->role, 'admin') || str_contains(Auth::user()->role, 'pengajar'))
+  <li class="{{ (request()->is('periode*')) ? 'menu-item active': 'menu-item'}}">
+    <a href="{{ route('periode.index') }}" class="menu-link">
+      <i class='menu-icon fa-regular fa-calendar-days'></i>
+      <div data-i18n="Analytics">Periode</div>
     </a>
   @endif
 
-  @if (str_contains(Auth::user()->role, 'peserta'))
-  <li class="{{ (request()->is('absensi*')) ? 'menu-item active': 'menu-item'}}">
-    <a href="{{ url('index/absenPeserta') }}" class="menu-link">
-      <i class="menu-icon tf-icons bx bxs-notepad"></i>
-      <div data-i18n="Analytics">Absensi</div>
-    </a>
-  @endif
 
-  @if (str_contains(Auth::user()->role, 'pengajar'))
-  <li class="{{ (request()->is('absensi*')) ? 'menu-item active': 'menu-item'}}">
-    <a href="{{ url('index/bukaAbsen') }}" class="menu-link">
-      <i class="menu-icon tf-icons bx bxs-notepad"></i>
-      <div data-i18n="Analytics">Buka Absensi</div>
-    </a>
-  @endif
+
 
   <li class="menu-item">
     <form action="{{ route('logout') }}" method="POST">

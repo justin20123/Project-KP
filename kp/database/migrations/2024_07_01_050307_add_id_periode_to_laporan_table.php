@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIdjadwalpelatihanToLaporanTable extends Migration
+class AddIdperiodeToLaporanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddIdjadwalpelatihanToLaporanTable extends Migration
     public function up()
     {
         Schema::table('laporan', function (Blueprint $table) {
-            $table->unsignedBigInteger('idjadwalpelatihan');
-            $table->foreign('idjadwalpelatihan')->references('id')->on('jadwal_pelatihan');
+            $table->unsignedBigInteger('idperiode');
+            $table->foreign('idperiode')->references('id')->on('periode');
         });
     }
 
@@ -27,8 +27,8 @@ class AddIdjadwalpelatihanToLaporanTable extends Migration
     public function down()
     {
         Schema::table('laporan', function (Blueprint $table) {
-            $table->dropForeign(['idjadwalpelatihan']);
-            $table->dropColumn('idjadwalpelatihan');
+            $table->dropForeign(['idperiode']);
+            $table->dropColumn('idperiode');
         });
     }
 }

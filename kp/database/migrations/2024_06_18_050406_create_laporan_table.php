@@ -15,8 +15,8 @@ class CreateLaporanTable extends Migration
     {
         Schema::create('laporan', function (Blueprint $table) {
 
-            $table->integer('nilai')->default(0);
-            $table->string('evaluasi', 200);
+            $table->string('evaluasi', 200)->nullable();
+            $table->timestamps();
             $table->softDeletes();
         });
     }

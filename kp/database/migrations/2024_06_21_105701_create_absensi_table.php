@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKelasDiikutiTable extends Migration
+class CreateAbsensiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateKelasDiikutiTable extends Migration
      */
     public function up()
     {
-        Schema::create('kelas_diikuti', function (Blueprint $table) {
+        Schema::create('absensi', function (Blueprint $table) {
 
+            
+            $table->enum('status_kehadiran', ["hadir", "alfa", "sakit", "ijin"]); 
+            $table->timestamps();
             $table->softDeletes();
         });
     }
@@ -26,6 +29,6 @@ class CreateKelasDiikutiTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kelas_diikuti');
+        Schema::dropIfExists('absensi');
     }
 }

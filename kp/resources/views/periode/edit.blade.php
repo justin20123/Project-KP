@@ -14,7 +14,7 @@
 @section('menu')
 <div class="portlet-title">
     <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
-        Add New  Jadwal Pelatihan
+        Edit Periode
     </div> 
 </div>
 @if(Session::has('alert'))
@@ -22,22 +22,24 @@
         {{ Session::get('alert') }}
     </div>
 @endif
-<form method="POST" action="{{ route('jadwalpelatihan.update', $jadwalpelatihan->id) }}">
+<form method="POST" action="{{ route('periode.update', $periode->id) }}">
     @csrf
     @method("PUT")
     <div class="form-group">
         <label for="">Tanggal Start</label>
-        <input type="date" id="date" class="form-control" style="width: 20%" name="tanggal_start" value="{{ $jadwalpelatihan->tanggal_start }}">   
+        <input type="date" id="date" class="form-control" style="width: 20%" name="tanggal_start" value="{{ $periode->tanggal_start }}">   
         <label for="">Jenis Pelatihan</label>
         <select name="jenis_pelatihan" id="" required>
             <option value="Kelompok">Kelompok</option>
             <option value="Private">Private</option>
         </select>
         <br>
+        <label for="">Kelas Paralel</label>
+        <input type="text" name="kelas_paralel" class="form-control" id="kelas_paralel" maxlength="2" size="2" required value="{{ $periode->kelas_paralel) }}">
         <label>Pengajar</label>
         <select name="id_pengajar" id="" required>
             @foreach($pengajar as $pj)
-                @if($pj->id == $jadwalpelatihan->id_pengajar)
+                @if($pj->id == $periode->id_pengajar)
                     <option value="{{ $pj->id }}" selected>{{$pj->nama}}</option>
                 @else
                     <option value="{{ $pj->id }}">{{$pj->nama}}</option>
@@ -48,7 +50,7 @@
         <label>Pelatihan</label>
         <select name="idpelatihan" id="" required>
             @foreach($pelatihan as $pl)
-            @if($pl->id == $jadwalpelatihan->idpelatihan)
+            @if($pl->id == $periode->idpelatihan)
             <option value="{{ $pl->id }}" selected>{{$pl->nama}}</option>
         @else
             <option value="{{ $pl->id }}">{{$pl->nama}}</option>
