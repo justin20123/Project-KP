@@ -39,6 +39,27 @@ class PeriodeController extends Controller
             ->get();
             return view('periode.index', ["periode" => $periode]);
         }
+        elseif(Auth::user()->role == 'orang_tua'){
+            $peserta = DB::table('peserta')
+            ->select('*')
+            ->where('id_orangtua','=', Auth::id())
+            ->get();
+
+            $periodepeserta = [];
+            foreach($peserta as $key=>$value){
+                $periode = DB::table('peserta')
+                ->join('laporan','laporan.id_peserta', '=' , 'peserta.id')
+                ->join('periode','laporan.idperiode', '=' , 'periode.id')
+                ->join('pelatihan','periode.idpelatihan', '=' , 'pelatihan.id')
+                ->select('periode.*' ,'pelatihan.nama as namapelatihan', 'pelatihan.jumlah_pertemuan as jumlahpertemuan', 'peserta.nama as namapeserta', 'peserta.id as idpeserta', 'periode.id as idperiode')
+                ->where('periode.status','=','berjalan')
+                ->where('peserta.id','=',$value->id)
+                ->get();
+                array_push($periodepeserta, $periode);
+                
+            }
+            return view('periode.index', ['peserta'=>$peserta, "periode" => $periodepeserta]);
+        }
     }
 
     /**

@@ -42,10 +42,18 @@ class AbsensiController extends Controller
             ->select('jadwal_kelas.*')
             ->where('idperiode','=',$id)
             ->get();
-            return view ('absensi.index',["peserta"=>$peserta,'jadwalkelas'=>$jadwalkelas]);
-
-            
-            
+            return view ('absensi.index',["peserta"=>$peserta,'jadwalkelas'=>$jadwalkelas]);  
+        }
+        elseif(Auth::user()->role == 'orang_tua'){
+            $peserta = DB::table('absensi')
+            ->join('jadwal_kelas','jadwal_kelas.id','=','absensi.idjadwalkelas')
+            ->join('periode','jadwal_kelas.idperiode','=','periode.id')
+            ->join('pelatihan','pelatihan.id','=','periode.idpelatihan')
+            ->join('peserta','absensi.id_peserta','=','peserta.id')
+            ->select('absensi.*', 'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel','periode.id as idperiode', 'peserta.nama as namapeserta', 'peserta.id as idpeserta', 'jadwal_kelas.nomor_pertemuan as nomorpertemuan')
+            ->where('idperiode','=',$id)
+            ->get();
+            return view ('absensi.index',["peserta"=>$peserta]);  
         }
     }
 

@@ -76,6 +76,42 @@ class OrangtuaController extends Controller
         return redirect()->route('orangtua.index')->with('status', 'Orangtua  ' .  $users->nama . ' berhasil ditambahkan');
     }
 
+    public function uploadcsv(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'csv_file' => 'required|mimes:csv,txt',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
+        $file = $request->file('csv_file');
+        $filename = $file->getClientOriginalName();
+        $file->move(public_path('uploads'), $filename);
+    
+        $csvData = array();
+        if (($handle = fopen(public_path('uploads/' . $filename), 'r')) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                $csvData[] = $data;
+            }
+            fclose($handle);
+        }
+    
+        foreach ($csvData as $row) {
+            Users::create([
+                'password' => Hash::make($row[0]),
+                'nama' => $row[1],
+                'alamat' => $row[2],
+                'email' => $row[3],
+                'role' => 'orang_tua',
+                'status' => 1
+            ]);
+        }
+    
+        return redirect()->back()->with('status', 'CSV file uploaded successfully!');   
+    }
+
     /**
      * Display the specified resource.
      *

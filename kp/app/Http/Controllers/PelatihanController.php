@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class PelatihanController extends Controller
 {
@@ -73,6 +74,39 @@ class PelatihanController extends Controller
 
         $pelatihan->save();
         return redirect()->route('pelatihan.index')->with('status', 'Pelatihan ' .  $pelatihan->nama . ' berhasil ditambahkan');
+    }
+
+    public function uploadcsv(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'csv_file' => 'required|mimes:csv,txt',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
+        $file = $request->file('csv_file');
+        $filename = $file->getClientOriginalName();
+        $file->move(public_path('uploads'), $filename);
+    
+        $csvData = array();
+        if (($handle = fopen(public_path('uploads/' . $filename), 'r')) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                $csvData[] = $data;
+            }
+            fclose($handle);
+        }
+    
+        foreach ($csvData as $row) {
+            Pelatihan::create([
+                'nama' => $row[0],
+                'deskripsi' => $row[1],
+                'jumlah_pertemuan' => $row[2],
+            ]);
+        }
+    
+        return redirect()->back()->with('status', 'CSV file uploaded successfully!');   
     }
 
     /**

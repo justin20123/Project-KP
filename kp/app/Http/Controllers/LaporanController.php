@@ -56,6 +56,16 @@ class LaporanController extends Controller
                 ->where('periode.id','=',$idperiode)
                 ->get();
             return view('laporan.index', ['anggota_kelas'=>$anggota_kelas]);
+        }else if (Auth::user()->role == "orang_tua") {
+            $evaluasi = DB::table('laporan')
+                ->join('periode', 'laporan.idperiode', '=', 'periode.id')
+                ->join('peserta', 'laporan.id_peserta', '=', 'peserta.id')
+                ->join('pelatihan', 'periode.idpelatihan', '=', 'pelatihan.id')
+                ->select('laporan.*', 'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel','periode.id as idperiode', 'peserta.nama as namapeserta', 'peserta.id as idpeserta', 'laporan.evaluasi as eval')
+                ->where('periode.id','=',$idperiode)
+                ->where('peserta.id_orangtua','=',Auth::id())
+                ->get();
+            return view('laporan.index', ['evaluasi'=>$evaluasi]);
         }
     }
 

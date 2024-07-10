@@ -49,7 +49,7 @@
       <div data-i18n="Analytics">Daftar Pelatihan</div>
     </a>
   @endif
-  @if (str_contains(Auth::user()->role, 'admin') || str_contains(Auth::user()->role, 'pengajar'))
+  @if (str_contains(Auth::user()->role, 'admin') || str_contains(Auth::user()->role, 'pengajar') || str_contains(Auth::user()->role, 'orang_tua'))
   <li class="{{ (request()->is('periode*')) ? 'menu-item active': 'menu-item'}}">
     <a href="{{ route('periode.index') }}" class="menu-link">
       <i class='menu-icon fa-regular fa-calendar-days'></i>

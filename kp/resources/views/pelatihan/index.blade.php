@@ -152,13 +152,32 @@
 
 @endsection
 @section('menu')
+<div class="modal fade" id="modal-upload-csv" tabindex="-1" role="dialog" aria-labelledby="uploadCsvModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadCsvModalLabel">Upload CSV</h5>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ route('pelatihan.uploadcsv') }}" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="csv_file" accept=".csv">
+                    <input type="submit" value='Upload CSV'>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="portlet-title">
     <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
         List Pelatihan
     </div>
-
+    
     <div style="float: right; margin: 15px;">
         <a href="{{url('pelatihan/create')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</a>
+    </div>
+    <div style="float: right; margin: 15px;">
+        <a href="#" class="btn btn-success btn-sm" onclick="add_upload_csv()"><i class="fa fa-upload"></i>Upload CSV</a>
     </div>
 
 </div>
@@ -210,6 +229,9 @@
             "scrollX": true
         });
     });
+    function add_upload_csv() {
+        $("#modal-upload-csv").modal("show");
+    }
 </script>
 @endsection
 @endif

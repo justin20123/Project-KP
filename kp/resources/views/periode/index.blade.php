@@ -154,6 +154,61 @@
 </div>
 </div>
 @endif
+
+@if(Auth::user()->role == 'orang_tua')
+@section('menu')
+@foreach($peserta as $keype=>$pe)
+<div class="portlet-title">
+    <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
+        Data Pelatihan {{ $pe->nama }}
+    </div>
+</div>
+@if(session("message"))
+<div class="alert alert-success  alert-dismissible fade show" role="alert">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>{{ session("message") }}</strong> 
+</div>
+@endif
+@if(session("error") != null)
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>{{ session("error") }}</strong> 
+</div>
+@endif
+<div class="container px-2 px-lg-2 mt-2">
+<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+@if(count($periode[$keype])==0)
+    <p>Tidak ada data tersedia</p>
+@else
+@foreach ($periode[$keype] as $pr)
+<div class="col mb-5">
+    <div class="card h-100">
+        <div class="card-body p-4">
+            <div class="text-center">
+                <h5 class="fw-bolder">{{ $pr->namapelatihan }}</h5>
+                <h5 class="fw-bolder">{{ $pr->jadwal }}</h5>
+                <hr class="hr" />
+
+                <a href="{{route('absensi.lihat_absensi', $pr->idperiode )}}" class="btn btn-success btn-sm">Lihat kehadiran</a>
+                <hr class="hr" />
+
+                <a href="{{route('laporan.daftarpeserta', $pr->idperiode )}}" class="btn btn-success btn-sm">Lihat Evaluasi</a>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
+
+</div>
+</div>
+<hr class="hr" />
+@endif
+@endforeach
+@endif
 @endsection
 
 @section('script')

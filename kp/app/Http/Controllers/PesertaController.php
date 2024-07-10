@@ -70,6 +70,47 @@ class PesertaController extends Controller
         return redirect()->route('peserta.index')->with('message', 'Peserta ' .  $peserta->nama . ' berhasil ditambahkan');
     }
 
+    public function uploadcsv(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'csv_file' => 'required|mimes:csv,txt',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
+        $file = $request->file('csv_file');
+        $filename = $file->getClientOriginalName();
+        $file->move(public_path('uploads'), $filename);
+    
+        $csvData = array();
+        if (($handle = fopen(public_path('uploads/' . $filename), 'r')) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                $csvData[] = $data;
+            }
+            fclose($handle);
+        }
+        
+
+
+        foreach ($csvData as $row) {
+            $orangtua = Users::where('nama', $row[2])->first(); // assuming id_orangtua is in column 4
+            if ($orangtua) {
+                $idortu = $orangtua->id;
+            } else {
+                return redirect()->back()->with('error', 'Orang tua tidak ditemukan'); 
+            }
+            Peserta::create([
+                'nama' => $row[0],
+                'umur' => $row[1],
+                'id_orangtua' => $idortu,
+            ]);
+        }
+    
+        return redirect()->back()->with('status', 'CSV file uploaded successfully!');   
+    }
+
     /**
      * Display the specified resource.
      *

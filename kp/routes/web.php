@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 
-
+Route::post('/pelatihan/uploadcsv', [PelatihanController::class,'uploadcsv'])->name('pelatihan.uploadcsv');
 Route::resource('pelatihan', PelatihanController::class);
 Route::resource('periode', PeriodeController::class);
 Route::resource('jadwalkelas', JadwalKelasController::class);
@@ -46,13 +46,15 @@ Route::post('/updatestatuskehadiran', [AbsensiController::class, 'updatestatuske
 Route::resource('absensi', AbsensiController::class);
 
 //peserta
-
+Route::post('/peserta/uploadcsv', [PesertaController::class,'uploadcsv'])->name('peserta.uploadcsv');
 Route::resource('peserta', PesertaController::class);
 
 //orang tua
+Route::post('/orangtua/uploadcsv', [OrangtuaController::class,'uploadcsv'])->name('orangtua.uploadcsv');
 Route::resource('orangtua', OrangtuaController::class);
 
 //pengajar
+Route::post('/pengajar/uploadcsv', [PengajarController::class,'uploadcsv'])->name('pengajar.uploadcsv');
 Route::resource('pengajar', PengajarController::class);
 
 //admin

@@ -16,7 +16,7 @@ class CreatePelatihanTable extends Migration
         Schema::create('pelatihan', function (Blueprint $table) {
             $table->id();
             $table->string("nama",45);
-            $table->string("deskripsi",200);
+            $table->string("deskripsi",300);
             
             $table->integer('jumlah_pertemuan');
 

@@ -1,7 +1,7 @@
 @extends('layouts.sneat')
 
 @section('menu')
-@if(Auth::user() != null)
+@if(Auth::user() != null && Auth::user()->role == 'pengajar')
 <div class="modal fade" id="modal-hadir-semua" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
@@ -116,11 +116,47 @@
 
 @endforeach
 @endif
-@else
-<p>Tidak ada data absensi</p>
+@elseif(Auth::user() != null && Auth::user()->role == 'orang_tua')
+<div class="portlet-title">
+    <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
+        Kehadiran {{ $peserta[0]->namapeserta }} pada {{ $peserta[0]->namapelatihan }} ({{ $peserta[0]->kelasparalel }})
+    </div>
+</div>
+@if (count($peserta) == 0)
+<p>Tidak ada data absensi ditemukan</p>
+@elseif (count($peserta) > 0)
+<div class="table-responsive">
+    <table id="pengajar" class="table table-striped" style="width:100%">
+        <thead class="table-border-bottom-0">
+            <tr>
+                <th>#</th>
+                <th>Nomor Pertemuan</th>
+                <th>Kehadiran</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (count($peserta) == 0)
+            <tr>
+                <td class="text-center" colspan="8">Tidak ada anggota kelas yang terdata</td>
+            </tr>
+            @else
+            @foreach ($peserta as $p)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $p->nomorpertemuan }}</td>
+                <td>{{ $p->status_kehadiran }}</td>
+
+
+            </tr>
+            @endforeach
+        
+            @endif
+        </tbody>
+    </table>
+</div>
 @endif
 @endsection
-
+@endif
 @section('content')
 
 

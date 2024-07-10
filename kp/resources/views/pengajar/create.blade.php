@@ -8,6 +8,25 @@
 @extends('layouts.sneat')
 
 @section('menu')
+<div class="modal fade" id="modal-upload-csv" tabindex="-1" role="dialog" aria-labelledby="uploadCsvModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadCsvModalLabel">Upload CSV</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ route('pengajar.upload.csv') }}" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="csv_file" accept=".csv">
+                    <button type="submit">Upload CSV</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="portlet-title">
     <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
         Add New Pengajar

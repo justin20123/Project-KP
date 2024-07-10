@@ -116,6 +116,20 @@
         </tbody>
     </table>
 </div>
+@elseif(Auth::user()->role == 'orang_tua')
+
+<div class="card">
+  <div class="card-body">
+    @if ($evaluasi[0]->eval != '')
+    <h4 class="card-title"><strong>Evaluasi {{ $evaluasi[0]->namapeserta }} pada {{ $evaluasi[0]->namapelatihan }} ({{ $evaluasi[0]->kelasparalel }})</strong></h4>
+    <p class="card-text">Evaluasi: {{ $evaluasi[0]->eval }}</p>
+    @else
+    <h4 class="card-title"><strong>Evaluasi {{ $evaluasi[0]->namapeserta }} pada {{ $evaluasi[0]->namapelatihan }} ({{ $evaluasi[0]->kelasparalel }})</strong></h4>
+    <p class="card-text">Belum ada evaluasi untuk saat ini</p>
+    @endif
+  </div>
+</div>
+
 @endif
 @else
 <p>Anda tidak memiliki akses halaman ini</p>
