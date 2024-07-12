@@ -37,6 +37,8 @@ class LaporanController extends Controller
                 ->where('periode.id','=',$idperiode)
                 ->get();
 
+                //dd($anggota_kelas);
+                
                 $peserta = DB::table("peserta")
                 ->whereNotIn('id', function($query) use ($idperiode) {
                     $query->select('id_peserta')
@@ -88,11 +90,11 @@ class LaporanController extends Controller
     public function store(Request $request)
     {
         $laporan = new Laporan();
-        $laporan->id_peserta = $request->get('id_peserta');
-        $laporan->idperiode = $request->get('idperiode');
-        $laporan->evaluasi = '';
-        $laporan->save();
-        return redirect()->route('laporan.daftarpeserta', ['message' => 'Data berhasil ditambahkan']);
+        // $laporan->id_peserta = $request->get('id_peserta');
+        // $laporan->idperiode = $request->get('idperiode');
+        // $laporan->evaluasi = '';
+        DB::statement("INSERT INTO laporan (id_peserta, idperiode, evaluasi) VALUES (?,?,?)", [$request->get('id_peserta'), $request->get('idperiode'), '']);
+        return redirect()->route('laporan.daftarpeserta', [ 'id'=>$request->get('idperiode'), 'message' => 'Data berhasil ditambahkan']);
     }
 
     /**

@@ -117,14 +117,15 @@
 @endforeach
 @endif
 @elseif(Auth::user() != null && Auth::user()->role == 'orang_tua')
+
+@if (count($peserta) == 0)
+<p>Tidak ada data absensi ditemukan</p>
+@elseif (count($peserta) > 0)
 <div class="portlet-title">
     <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
         Kehadiran {{ $peserta[0]->namapeserta }} pada {{ $peserta[0]->namapelatihan }} ({{ $peserta[0]->kelasparalel }})
     </div>
 </div>
-@if (count($peserta) == 0)
-<p>Tidak ada data absensi ditemukan</p>
-@elseif (count($peserta) > 0)
 <div class="table-responsive">
     <table id="pengajar" class="table table-striped" style="width:100%">
         <thead class="table-border-bottom-0">
@@ -155,8 +156,9 @@
     </table>
 </div>
 @endif
-@endsection
 @endif
+@endsection
+
 @section('content')
 
 

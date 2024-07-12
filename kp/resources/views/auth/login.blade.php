@@ -123,6 +123,12 @@
                   <button class="btn btn-primary d-grid w-100" type="submit">Log In</button>
                 </div>
               </form>
+              <a href="{{ url('password/reset')}}" class='btn btn-primary'>Reset Password Admin</a>
+              <br>
+              <div class="alert alert-primary" role="alert">
+                <strong>Bagi orang tua dan pengajar, lupa password dapat menghubungi Admin (08xxxxxxxxxxx)</strong>
+              </div>
+              <p></p>
             </div>
           </div>
           <!-- /Register -->

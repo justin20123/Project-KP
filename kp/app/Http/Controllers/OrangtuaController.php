@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -108,6 +109,7 @@ class OrangtuaController extends Controller
                 'status' => 1
             ]);
         }
+        File::delete(public_path('uploads/' . $filename));
     
         return redirect()->back()->with('status', 'CSV file uploaded successfully!');   
     }

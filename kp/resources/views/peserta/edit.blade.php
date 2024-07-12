@@ -11,18 +11,19 @@
 <div class="portlet-title">
     <div style="display: inline-block; margin: 15px; font-size: 25px; font-weight: bold;">
         Edit Data Peserta
-        <small>Untuk data orang tua bisa diedit pada bagian list orang tua</small>
+        <br>
+        <small>*Untuk data orang tua bisa diedit pada bagian list orang tua</small>
     </div>
 </div>
-<form method="POST" action="{{ route('peserta.update', $user->id) }}">
+<form method="POST" action="{{ route('peserta.update', $peserta->id) }}">
     @csrf
     @method('PUT')
     <div class="form-group">
         <label>Nama</label>
-        <input type="text" name="nama" class="form-control" id="nama" required value="{{ $user->nama }}">
+        <input type="text" name="nama" class="form-control" id="nama" required value="{{ $peserta->nama }}">
 
         <label>Umur</label>
-        <input type="number" name="umur" class="form-control" id="umur" min="0" max="100" required value="{{ $ser->umur }}">
+        <input type="number" name="umur" class="form-control" id="umur" min="0" max="100" required value="{{ $peserta->umur }}">
 
         <label for="">Orang tua</label>
         <select name="id_orangtua" id="" required>

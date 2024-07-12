@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -107,7 +108,7 @@ class PesertaController extends Controller
                 'id_orangtua' => $idortu,
             ]);
         }
-    
+        File::delete(public_path('uploads/' . $filename));
         return redirect()->back()->with('status', 'CSV file uploaded successfully!');   
     }
 
@@ -130,8 +131,12 @@ class PesertaController extends Controller
      */
     public function edit($id)
     {       
+        $orangtua = DB::table('users')
+        ->select("*")
+        ->where('role','=','orang_tua')
+        ->get();
         $peserta = Peserta::find($id);
-        return view('peserta.edit', compact('peserta'));       
+        return view('peserta.edit', compact('peserta', 'orangtua'));       
     }
 
     /**
@@ -145,10 +150,9 @@ class PesertaController extends Controller
     {      
         $peserta = Peserta::find($id); 
 
-        $peserta = new Peserta();
         $peserta->nama = $request->get('nama');
         $peserta->umur = $request->get('umur');
-        $peserta->id_peserta = $request->get('id_peserta');
+        $peserta->id_orangtua = $request->get('id_orangtua');
         $peserta->updated_at = now("Asia/Bangkok");
         $peserta->save();
 

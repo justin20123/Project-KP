@@ -24,7 +24,7 @@
 
     @if(str_contains(Auth::user()->role, 'admin'))
     <div style="float: right; margin: 15px;">
-        <a href="{{ route('pengajar.create')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>Add</a>
+        <a href="{{ url('pengajar/create')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>Add</a>
     </div>
     <div style="float: right; margin: 15px;">
         <a href="#" class="btn btn-success btn-sm" onclick="add_upload_csv()"><i class="fa fa-upload"></i>Upload CSV</a>
@@ -44,9 +44,7 @@
                 <th>Alamat</th>
                 <th>Email</th>
                 <th>Last Login</th>
-                @if(str_contains(Auth::user()->role, 'pengajar'))
-                    <th>Edit</th>
-                @endif
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
@@ -63,12 +61,11 @@
                 <td>{{ $p->email }}</td>
                 <td>{{ $p->last_login }}</td>
 
-                @if(str_contains(Auth::user()->role, 'pengajar'))
-                    <td class="text-center"><a href="{{ route('pengajar.edit', $p->id) }}"
-                            class="btn btn-sm btn-primary"><i class='bx bx-edit-alt'></i></a>
-                    </td>
+            
+                <td class="text-center"><a href="{{ route('pengajar.edit', $p->id) }}"
+                        class="btn btn-sm btn-primary"><i class='bx bx-edit-alt'></i></a>
+                </td>
 
-                @endif
             </tr>
             @endforeach
             @endif

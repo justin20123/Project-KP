@@ -145,7 +145,7 @@
                 <a href="{{route('absensi.lihat_absensi', $p->id )}}" class="btn btn-success btn-sm">Lihat kehadiran</a>
                 <hr class="hr" />
 
-                <a href="{{route('laporan.daftarpeserta ', $p->id )}}" class="btn btn-success btn-sm">Lihat Evaluasi</a>
+                <a href="{{route('laporan.daftarpeserta', $p->id )}}" class="btn btn-success btn-sm">Lihat Evaluasi</a>
             </div>
         </div>
     </div>
@@ -177,33 +177,62 @@
   <strong>{{ session("error") }}</strong> 
 </div>
 @endif
-<div class="container px-2 px-lg-2 mt-2">
-<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+<div class="container">
+    <div class="justify-content-center">
 
-@if(count($periode[$keype])==0)
-    <p>Tidak ada data tersedia</p>
-@else
-@foreach ($periode[$keype] as $pr)
-<div class="col mb-5">
-    <div class="card h-100">
-        <div class="card-body p-4">
-            <div class="text-center">
-                <h5 class="fw-bolder">{{ $pr->namapelatihan }}</h5>
-                <h5 class="fw-bolder">{{ $pr->jadwal }}</h5>
-                <hr class="hr" />
-
-                <a href="{{route('absensi.lihat_absensi', $pr->idperiode )}}" class="btn btn-success btn-sm">Lihat kehadiran</a>
-                <hr class="hr" />
-
-                <a href="{{route('laporan.daftarpeserta', $pr->idperiode )}}" class="btn btn-success btn-sm">Lihat Evaluasi</a>
+        @if(count($periode[$keype])==0)
+            <p>Tidak ada data tersedia</p>
+        @else
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="fw-bolder">Berjalan</h5>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nama Pelatihan</th>
+                            <th>Jadwal</th>
+                            <th>Lihat Kehadiran</th>
+                            <th>Lihat Evaluasi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($periode[$keype]['periodejalan'] as $p)
+                        <tr>
+                            <td>{{ $p->namapelatihan }}</td>
+                            <td>{{ $p->jadwal }}</td>
+                            <td><a href="{{ route('absensi.lihat_absensi', $p->id) }}" class="btn btn-success btn-sm">Lihat Kehadiran</a></td>
+                            <td><a href="{{ route('laporan.daftarpeserta', $p->id) }}" class="btn btn-success btn-sm">Lihat Evaluasi</a></td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h5 class="fw-bolder">Selesai</h5>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nama Pelatihan</th>
+                            <th>Jadwal</th>
+                            <th>Lihat Kehadiran</th>
+                            <th>Lihat Evaluasi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($periode[$keype]['periodeselesai'] as $p)
+                        <tr>
+                            <td>{{ $p->namapelatihan }}</td>
+                            <td>{{ $p->jadwal }}</td>
+                            <td><a href="{{ route('absensi.lihat_absensi', $p->id) }}" class="btn btn-success btn-sm">Lihat Kehadiran</a></td>
+                            <td><a href="{{ route('laporan.daftarpeserta', $p->id) }}" class="btn btn-success btn-sm">Lihat Evaluasi</a></td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
+
     </div>
-</div>
-@endforeach
-
-
-</div>
 </div>
 <hr class="hr" />
 @endif

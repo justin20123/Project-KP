@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,7 +66,6 @@ class PengajarController extends Controller
         $user->nama = $request->get('nama');
         $user->alamat = $request->get('alamat');
         $user->email = $request->get('email');
-        $user->umur = $request->get('umur');
         $user->role = "pengajar";
         $user->status = "1";
         $user->created_at = now("Asia/Bangkok");
@@ -108,6 +108,7 @@ class PengajarController extends Controller
                 'status' => 1
             ]);
         }
+        File::delete(public_path('uploads/' . $filename));
     
         return redirect()->back()->with('status', 'CSV file uploaded successfully!');   
     }
@@ -148,7 +149,6 @@ class PengajarController extends Controller
 
         $user->nama = $request->get('nama');
         $user->alamat = $request->get('alamat');
-        $user->umur = $request->get('umur');
         $user->created_at = now("Asia/Bangkok");
         $user->updated_at = now("Asia/Bangkok");
         $user->save();

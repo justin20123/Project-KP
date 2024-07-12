@@ -8,6 +8,8 @@
         width: 20%;
     }
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
 
 @extends('layouts.sneat')
 
@@ -25,41 +27,7 @@
 <form method="POST" action="{{ route('periode.update', $periode->id) }}">
     @csrf
     @method("PUT")
-    <div class="form-group">
-        <label for="">Tanggal Start</label>
-        <input type="date" id="date" class="form-control" style="width: 20%" name="tanggal_start" value="{{ $periode->tanggal_start }}">   
-        <label for="">Jenis Pelatihan</label>
-        <select name="jenis_pelatihan" id="" required>
-            <option value="Kelompok">Kelompok</option>
-            <option value="Private">Private</option>
-        </select>
-        <br>
-        <label for="">Kelas Paralel</label>
-        <input type="text" name="kelas_paralel" class="form-control" id="kelas_paralel" maxlength="2" size="2" required value="{{ $periode->kelas_paralel) }}">
-        <label>Pengajar</label>
-        <select name="id_pengajar" id="" required>
-            @foreach($pengajar as $pj)
-                @if($pj->id == $periode->id_pengajar)
-                    <option value="{{ $pj->id }}" selected>{{$pj->nama}}</option>
-                @else
-                    <option value="{{ $pj->id }}">{{$pj->nama}}</option>
-                @endif               
-            @endforeach
-        </select>
-        <br>
-        <label>Pelatihan</label>
-        <select name="idpelatihan" id="" required>
-            @foreach($pelatihan as $pl)
-            @if($pl->id == $periode->idpelatihan)
-            <option value="{{ $pl->id }}" selected>{{$pl->nama}}</option>
-        @else
-            <option value="{{ $pl->id }}">{{$pl->nama}}</option>
-        @endif
-            @endforeach
-        </select>
-        <br>
-
-          
+    <div class="form-group">          
         <label>Jadwal Pertemuan</label>
         <br>
         <label>Hari</label>
@@ -75,7 +43,9 @@
         </select>
         <br>
         <label>Waktu</label>
-        <input type="text" name="waktu_awal_pertemuan" id="" placeholder="00.00"> - <input type="text" name="waktu_akhir_pertemuan" id="" placeholder="00.00">
+        <input type="time" name="waktu_awal_pertemuan" id="waktu_awal_pertemuan" placeholder="00.00" required>-
+        <input type="time" name="waktu_akhir_pertemuan" id="waktu_akhir_pertemuan" placeholder="00.00" required>
+        
         
 
     </div>
@@ -84,5 +54,6 @@
 
 @endsection
 <script>
+
 
 </script>

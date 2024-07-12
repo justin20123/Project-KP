@@ -3,6 +3,7 @@
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\JadwalKelasController;
 use App\Http\Controllers\JadwalpelatihanController;
 use App\Http\Controllers\LaporanController;
@@ -13,7 +14,13 @@ use App\Http\Controllers\PengajarController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Middleware\Authenticate;
 use App\Models\JadwalKelas;
+use App\Models\Users;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,9 +35,10 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 
-
+Route::post('/pelatihan/create', [PelatihanController::class,'create'])->name('pelatihan.upload.csv');
 Route::post('/pelatihan/uploadcsv', [PelatihanController::class,'uploadcsv'])->name('pelatihan.uploadcsv');
 Route::resource('pelatihan', PelatihanController::class);
+
 Route::resource('periode', PeriodeController::class);
 Route::resource('jadwalkelas', JadwalKelasController::class);
 Route::get('/laporan/{id}', [LaporanController::class, 'daftarpeserta'])->name('laporan.daftarpeserta');
@@ -46,14 +54,18 @@ Route::post('/updatestatuskehadiran', [AbsensiController::class, 'updatestatuske
 Route::resource('absensi', AbsensiController::class);
 
 //peserta
+Route::post('/peserta/create', [PesertaController::class,'create'])->name('peserta.upload.csv');
 Route::post('/peserta/uploadcsv', [PesertaController::class,'uploadcsv'])->name('peserta.uploadcsv');
 Route::resource('peserta', PesertaController::class);
 
 //orang tua
+
+Route::post('/orangtua/create', [OrangtuaController::class,'create'])->name('orangtua.upload.csv');
 Route::post('/orangtua/uploadcsv', [OrangtuaController::class,'uploadcsv'])->name('orangtua.uploadcsv');
 Route::resource('orangtua', OrangtuaController::class);
 
 //pengajar
+Route::post('/pengajar/create', [PengajarController::class,'create'])->name('pengajar.upload.csv');
 Route::post('/pengajar/uploadcsv', [PengajarController::class,'uploadcsv'])->name('pengajar.uploadcsv');
 Route::resource('pengajar', PengajarController::class);
 

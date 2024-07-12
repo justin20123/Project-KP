@@ -47,7 +47,7 @@ class PeriodeController extends Controller
 
             $periodepeserta = [];
             foreach($peserta as $key=>$value){
-                $periode = DB::table('peserta')
+                $periodejalan = DB::table('peserta')
                 ->join('laporan','laporan.id_peserta', '=' , 'peserta.id')
                 ->join('periode','laporan.idperiode', '=' , 'periode.id')
                 ->join('pelatihan','periode.idpelatihan', '=' , 'pelatihan.id')
@@ -55,9 +55,18 @@ class PeriodeController extends Controller
                 ->where('periode.status','=','berjalan')
                 ->where('peserta.id','=',$value->id)
                 ->get();
-                array_push($periodepeserta, $periode);
+                $periodeselesai = DB::table('peserta')
+                ->join('laporan','laporan.id_peserta', '=' , 'peserta.id')
+                ->join('periode','laporan.idperiode', '=' , 'periode.id')
+                ->join('pelatihan','periode.idpelatihan', '=' , 'pelatihan.id')
+                ->select('periode.*' ,'pelatihan.nama as namapelatihan', 'pelatihan.jumlah_pertemuan as jumlahpertemuan', 'peserta.nama as namapeserta', 'peserta.id as idpeserta', 'periode.id as idperiode')
+                ->where('periode.status','=','selesai')
+                ->where('peserta.id','=',$value->id)
+                ->get();
+                array_push($periodepeserta, ['periodejalan'=>$periodejalan,'periodeselesai'=>$periodeselesai]);
                 
             }
+
             return view('periode.index', ['peserta'=>$peserta, "periode" => $periodepeserta]);
         }
     }
@@ -87,20 +96,29 @@ class PeriodeController extends Controller
      */
     public function store(Request $request)
     {
-        $periode = new Periode();
-        $periode->tanggal_start = $request->get('tanggal_start');
-        $periode->jenis_pelatihan = $request->get('jenis_pelatihan');
-        $periode->status = "berjalan";
-        $periode->jadwal = $request->get('hari_pertemuan').','.$request->get('waktu_awal_pertemuan').'-'.$request->get('waktu_akhir_pertemuan');
-        $periode->kelas_paralel = $request->get('kelas_paralel');
+        for ($i = 0; $i<=$request->get('jumlahpertemuan');$i++) {
+            $data = [
+                'hari'=>$request->get('hari_pertemuan_'.$i),
+                'waktu_awal'=>$request->get('waktu_awal_pertemuan_'.$i),
+                'waktu_akhir'=>$request->get('waktu_akhir_pertemuan_'.$i),
+            ];
+            $periode = new Periode();
+            $periode->tanggal_start = $request->get('tanggal_start');
+            $periode->jenis_pelatihan = $request->get('jenis_pelatihan');
+            $periode->status = "berjalan";
+            $periode->jadwal = $data['hari'].','.$data['waktu_awal'].'-'.$data['waktu_akhir'];
+            $periode->kelas_paralel = $request->get('kelas_paralel');
 
-        $periode->created_at = now("Asia/Bangkok");
-        $periode->updated_at = now("Asia/Bangkok");
+            $periode->created_at = now("Asia/Bangkok");
+            $periode->updated_at = now("Asia/Bangkok");
 
-        $periode->id_pengajar = $request->get('id_pengajar'); 
-        $periode->idpelatihan = $request->get('idpelatihan'); 
-        $periode->save();
-        return redirect()->route('periode.index')->with('message', 'Periode berhasil ditambahkan');
+            $periode->id_pengajar = $request->get('id_pengajar'); 
+            $periode->idpelatihan = $request->get('idpelatihan'); 
+            $periode->save();
+
+        }
+        
+        return redirect()->route('periode.index')->with('message', 'Periode berhasil ditambahkan'. $request->get('jumlahpertemuan'));
     }
 
     /**
@@ -144,14 +162,10 @@ class PeriodeController extends Controller
     public function update(Request $request, $id)
     {
         $periode = Periode::find($id);
-        $periode->tanggal_start = $request->get('tanggal_start');
-        $periode->jenis_pelatihan = $request->get('jenis_pelatihan');
         $periode->status = "berjalan";
         $periode->jadwal = $request->get('hari_pertemuan').','.$request->get('waktu_awal_pertemuan').'-'.$request->get('waktu_akhir_pertemuan');
-        $periode->kelas_paralel = $request->get('kelas_paralel');
 
         $periode->updated_at = now("Asia/Bangkok");
-
         $periode->save();
         return redirect()->route('periode.index')->with('status', 'Periode berhasil diupdate');
     }
