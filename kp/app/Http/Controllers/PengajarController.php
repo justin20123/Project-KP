@@ -149,8 +149,6 @@ class PengajarController extends Controller
 
         $user->nama = $request->get('nama');
         $user->alamat = $request->get('alamat');
-        $user->created_at = now("Asia/Bangkok");
-        $user->updated_at = now("Asia/Bangkok");
         $user->save();
 
         return redirect()->route('pengajar.index')->with('status', 'pengajar '  .  $user->nama . ' is already updated');

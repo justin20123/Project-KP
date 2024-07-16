@@ -24,25 +24,10 @@ class PelatihanController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role == "admin") {
-            $pelatihan = DB::table('pelatihan')
-                ->select('*')
-                ->get();
-        }
-        else if (Auth::user()->role == "pengajar") {
-            $pelatihan = DB::table('pelatihan')
-                ->select('pelatihan.*')
-                ->where("id_pengajar", "=", Auth::id())
-                ->get();
-        } else if (Auth::user()->role == "orang_tua") {
-            $pelatihan = DB::table('pelatihan')
-                
-                ->join("kelas_diikuti", "kelas_diikuti.idpelatihan", "=", "pelatihan.id")
-                ->select('pelatihan.*')
-                ->where("kelas_diikuti.id_peserta", "=", Auth::id())
-                ->get();
-        }
 
+        $pelatihan = DB::table('pelatihan')
+            ->select('*')
+            ->get();
 
         return view('pelatihan.index', ["pelatihan" => $pelatihan]);
     }

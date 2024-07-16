@@ -70,7 +70,7 @@ function addJadwalPertemuan()
     @csrf
     <div class="form-group">
         <label for="">Tanggal Start</label>
-        <input type="date" id="date" class="form-control" style="width: 20%" name="tanggal_start" value="{{ old('tanggal_start')}}">   
+        <input type="date" id="date" class="form-control" style="width: 20%" name="tanggal_start" value="{{ old('tanggal_start')}}" required>   
         <label for="">Jenis Pelatihan</label>
         <select name="jenis_pelatihan" id="">
             <option value="Kelompok">Kelompok</option>

@@ -24,7 +24,8 @@ class PeriodeController extends Controller
             $periode = DB::table('periode')
             ->join('pelatihan','periode.idpelatihan', '=' , 'pelatihan.id')
             ->join('users','periode.id_pengajar', '=' , 'users.id')
-            ->select('periode.*', 'pelatihan.nama as namapelatihan', 'pelatihan.jumlah_pertemuan as jumlahpertemuan', 'users.nama as namapengajar')
+            ->select('periode.*', 'pelatihan.nama as namapelatihan', 'pelatihan.jumlah_pertemuan as jumlahpertemuan',
+                 'users.nama as namapengajar')
             ->where('periode.status','=','berjalan')
             ->get();
             return view('periode.index', ["periode" => $periode]);
@@ -33,7 +34,8 @@ class PeriodeController extends Controller
             $periode = DB::table('periode')
             ->join('pelatihan','periode.idpelatihan', '=' , 'pelatihan.id')
             ->join('users','periode.id_pengajar', '=' , 'users.id')
-            ->select('periode.*', 'pelatihan.nama as namapelatihan', 'pelatihan.jumlah_pertemuan as jumlahpertemuan', 'users.nama as namapengajar')
+            ->select('periode.*', 'pelatihan.nama as namapelatihan', 'pelatihan.jumlah_pertemuan as jumlahpertemuan',
+                'users.nama as namapengajar')
             ->where('periode.status','=','berjalan')
             ->where('periode.id_pengajar','=',Auth::id())
             ->get();
@@ -51,7 +53,8 @@ class PeriodeController extends Controller
                 ->join('laporan','laporan.id_peserta', '=' , 'peserta.id')
                 ->join('periode','laporan.idperiode', '=' , 'periode.id')
                 ->join('pelatihan','periode.idpelatihan', '=' , 'pelatihan.id')
-                ->select('periode.*' ,'pelatihan.nama as namapelatihan', 'pelatihan.jumlah_pertemuan as jumlahpertemuan', 'peserta.nama as namapeserta', 'peserta.id as idpeserta', 'periode.id as idperiode')
+                ->select('periode.*' ,'pelatihan.nama as namapelatihan', 'pelatihan.jumlah_pertemuan as jumlahpertemuan', 
+                    'peserta.nama as namapeserta', 'peserta.id as idpeserta', 'periode.id as idperiode')
                 ->where('periode.status','=','berjalan')
                 ->where('peserta.id','=',$value->id)
                 ->get();
@@ -59,7 +62,8 @@ class PeriodeController extends Controller
                 ->join('laporan','laporan.id_peserta', '=' , 'peserta.id')
                 ->join('periode','laporan.idperiode', '=' , 'periode.id')
                 ->join('pelatihan','periode.idpelatihan', '=' , 'pelatihan.id')
-                ->select('periode.*' ,'pelatihan.nama as namapelatihan', 'pelatihan.jumlah_pertemuan as jumlahpertemuan', 'peserta.nama as namapeserta', 'peserta.id as idpeserta', 'periode.id as idperiode')
+                ->select('periode.*' ,'pelatihan.nama as namapelatihan', 'pelatihan.jumlah_pertemuan as jumlahpertemuan', 
+                    'peserta.nama as namapeserta', 'peserta.id as idpeserta', 'periode.id as idperiode')
                 ->where('periode.status','=','selesai')
                 ->where('peserta.id','=',$value->id)
                 ->get();
@@ -163,7 +167,8 @@ class PeriodeController extends Controller
     {
         $periode = Periode::find($id);
         $periode->status = "berjalan";
-        $periode->jadwal = $request->get('hari_pertemuan').','.$request->get('waktu_awal_pertemuan').'-'.$request->get('waktu_akhir_pertemuan');
+        $periode->jadwal = $request->get('hari_pertemuan').','.$request->get('waktu_awal_pertemuan').'-'
+            .$request->get('waktu_akhir_pertemuan');
 
         $periode->updated_at = now("Asia/Bangkok");
         $periode->save();

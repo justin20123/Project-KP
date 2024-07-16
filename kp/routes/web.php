@@ -46,7 +46,7 @@ Route::get('/laporan/{idperiode}/{idpeserta}', [LaporanController::class, 'isiev
 Route::put('/updateevaluasi', [LaporanController::class, 'updateevaluasi'])->name('laporan.updateevaluasi');
 Route::resource('laporan', LaporanController::class);
 //absensi
-Route::get('/lihat_absensi/{id}', [AbsensiController::class, 'lihat_absensi'])->name('absensi.lihat_absensi');
+Route::get('/lihat_absensi/{id}/{idpeserta?}', [AbsensiController::class, 'lihat_absensi'])->name('absensi.lihat_absensi');
 Route::get('/edit_absensi/{id}', [AbsensiController::class, 'edit_absensi'])->name('absensi.edit_absensi');
 Route::post('/hadirsemua', [AbsensiController::class, 'hadirsemua'])->name('absensi.hadirsemua');
 Route::post('/alfasemua', [AbsensiController::class, 'alfasemua'])->name('absensi.alfasemua');

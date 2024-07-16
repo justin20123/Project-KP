@@ -28,14 +28,15 @@ class AbsensiController extends Controller
         
     }
 
-    public function lihat_absensi($id){
+    public function lihat_absensi($id, $idpeserta = null){
         if(Auth::user()->role == 'pengajar'){
             $peserta = DB::table('absensi')
             ->join('jadwal_kelas','jadwal_kelas.id','=','absensi.idjadwalkelas')
             ->join('periode','jadwal_kelas.idperiode','=','periode.id')
             ->join('pelatihan','pelatihan.id','=','periode.idpelatihan')
             ->join('peserta','absensi.id_peserta','=','peserta.id')
-            ->select('absensi.*', 'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel','periode.id as idperiode', 'peserta.nama as namapeserta', 'peserta.id as idpeserta')
+            ->select('absensi.*', 'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel',
+                'periode.id as idperiode', 'peserta.nama as namapeserta', 'peserta.id as idpeserta')
             ->where('periode.id','=',$id)
             ->get();
             $jadwalkelas = DB::table('jadwal_kelas')
@@ -50,8 +51,11 @@ class AbsensiController extends Controller
             ->join('periode','jadwal_kelas.idperiode','=','periode.id')
             ->join('pelatihan','pelatihan.id','=','periode.idpelatihan')
             ->join('peserta','absensi.id_peserta','=','peserta.id')
-            ->select('absensi.*', 'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel','periode.id as idperiode', 'peserta.nama as namapeserta', 'peserta.id as idpeserta', 'jadwal_kelas.nomor_pertemuan as nomorpertemuan')
+            ->select('absensi.*', 'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel',
+                'periode.id as idperiode', 'peserta.nama as namapeserta', 'peserta.id as idpeserta', 
+                'jadwal_kelas.nomor_pertemuan as nomorpertemuan')
             ->where('idperiode','=',$id)
+            ->where('peserta.id', '=', $idpeserta)
             ->get();
             return view ('absensi.index',["peserta"=>$peserta]);  
         }
@@ -64,7 +68,8 @@ class AbsensiController extends Controller
             ->join('periode','jadwal_kelas.idperiode','=','periode.id')
             ->join('pelatihan','pelatihan.id','=','periode.idpelatihan')
             ->join('peserta','absensi.id_peserta','=','peserta.id')
-            ->select('absensi.*', 'jadwal_kelas.nomor_pertemuan as nomor_pertemuan', 'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel','periode.id as idperiode', 'peserta.nama as namapeserta', 'peserta.id as idpeserta','absensi.status_kehadiran as statushadir')
+            ->select('absensi.*', 'jadwal_kelas.nomor_pertemuan as nomor_pertemuan', 
+                'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel','periode.id as idperiode', 'peserta.nama as namapeserta', 'peserta.id as idpeserta','absensi.status_kehadiran as statushadir')
             ->where('jadwal_kelas.id','=',$id)
             ->get();
 
@@ -73,23 +78,23 @@ class AbsensiController extends Controller
     }
 
     public function updatestatuskehadiran(Request $request)
-{
-    $peserta = $request->peserta; 
+    {
+        $peserta = $request->peserta; 
 
-    foreach ($peserta as $p) {
-        $idpeserta = $p['idpeserta'];
-        $status_kehadiran = $p['status_kehadiran'];
+        foreach ($peserta as $p) {
+            $idpeserta = $p['idpeserta'];
+            $status_kehadiran = $p['status_kehadiran'];
 
-    
-        DB::table('absensi')
-            ->where('id_peserta', $idpeserta)
-            ->where('idjadwalkelas', $request->get('idjadwalkelas'))
-            ->update(['status_kehadiran' => $status_kehadiran]);
+        
+            DB::table('absensi')
+                ->where('id_peserta', $idpeserta)
+                ->where('idjadwalkelas', $request->get('idjadwalkelas'))
+                ->update(['status_kehadiran' => $status_kehadiran]);
+        }
+
+        // return a success response
+        return redirect()->back()->with('status', 'Status kehadiran berhasil diperbarui.');
     }
-
-    // return a success response
-    return redirect()->back()->with('status', 'Status kehadiran berhasil diperbarui.');
-}
 
     /**
      * Show the form for creating a new resource.

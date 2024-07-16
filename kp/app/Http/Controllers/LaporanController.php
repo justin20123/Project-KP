@@ -33,7 +33,8 @@ class LaporanController extends Controller
                 ->join('periode', 'laporan.idperiode', '=', 'periode.id')
                 ->join('peserta', 'laporan.id_peserta', '=', 'peserta.id')
                 ->join('pelatihan', 'periode.idpelatihan', '=', 'pelatihan.id')
-                ->select('laporan.*', 'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel','periode.id as idperiode', 'peserta.nama as namapeserta')
+                ->select('laporan.*', 'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel',
+                    'periode.id as idperiode', 'peserta.nama as namapeserta')
                 ->where('periode.id','=',$idperiode)
                 ->get();
 
@@ -54,7 +55,8 @@ class LaporanController extends Controller
                 ->join('periode', 'laporan.idperiode', '=', 'periode.id')
                 ->join('peserta', 'laporan.id_peserta', '=', 'peserta.id')
                 ->join('pelatihan', 'periode.idpelatihan', '=', 'pelatihan.id')
-                ->select('laporan.*', 'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel','periode.id as idperiode', 'peserta.nama as namapeserta', 'peserta.id as idpeserta')
+                ->select('laporan.*', 'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel',
+                    'periode.id as idperiode', 'peserta.nama as namapeserta', 'peserta.id as idpeserta')
                 ->where('periode.id','=',$idperiode)
                 ->get();
             return view('laporan.index', ['anggota_kelas'=>$anggota_kelas]);
@@ -63,7 +65,8 @@ class LaporanController extends Controller
                 ->join('periode', 'laporan.idperiode', '=', 'periode.id')
                 ->join('peserta', 'laporan.id_peserta', '=', 'peserta.id')
                 ->join('pelatihan', 'periode.idpelatihan', '=', 'pelatihan.id')
-                ->select('laporan.*', 'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel','periode.id as idperiode', 'peserta.nama as namapeserta', 'peserta.id as idpeserta', 'laporan.evaluasi as eval')
+                ->select('laporan.*', 'pelatihan.nama as namapelatihan', 'periode.kelas_paralel as kelasparalel',
+                    'periode.id as idperiode', 'peserta.nama as namapeserta', 'peserta.id as idpeserta', 'laporan.evaluasi as eval')
                 ->where('periode.id','=',$idperiode)
                 ->where('peserta.id_orangtua','=',Auth::id())
                 ->get();
@@ -89,12 +92,17 @@ class LaporanController extends Controller
      */
     public function store(Request $request)
     {
-        $laporan = new Laporan();
-        // $laporan->id_peserta = $request->get('id_peserta');
-        // $laporan->idperiode = $request->get('idperiode');
-        // $laporan->evaluasi = '';
-        DB::statement("INSERT INTO laporan (id_peserta, idperiode, evaluasi) VALUES (?,?,?)", [$request->get('id_peserta'), $request->get('idperiode'), '']);
-        return redirect()->route('laporan.daftarpeserta', [ 'id'=>$request->get('idperiode'), 'message' => 'Data berhasil ditambahkan']);
+
+        DB::statement("INSERT INTO laporan (id_peserta, idperiode, evaluasi) VALUES (?,?,?)", 
+        [
+            $request->get('id_peserta'),
+            $request->get('idperiode'), 
+            ''
+        ]);
+        return redirect()->route('laporan.daftarpeserta', [ 
+            'id'=>$request->get('idperiode'),
+             'message' => 'Data berhasil ditambahkan'
+        ]);
     }
 
     /**

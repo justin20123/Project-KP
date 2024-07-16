@@ -200,7 +200,7 @@
                         <tr>
                             <td>{{ $p->namapelatihan }}</td>
                             <td>{{ $p->jadwal }}</td>
-                            <td><a href="{{ route('absensi.lihat_absensi', $p->id) }}" class="btn btn-success btn-sm">Lihat Kehadiran</a></td>
+                            <td><a href="{{ url('./lihat_absensi/'. $p->id. '/'. $p->idpeserta) }}" class="btn btn-success btn-sm">Lihat Kehadiran</a></td>
                             <td><a href="{{ route('laporan.daftarpeserta', $p->id) }}" class="btn btn-success btn-sm">Lihat Evaluasi</a></td>
                         </tr>
                     @endforeach
@@ -223,7 +223,7 @@
                         <tr>
                             <td>{{ $p->namapelatihan }}</td>
                             <td>{{ $p->jadwal }}</td>
-                            <td><a href="{{ route('absensi.lihat_absensi', $p->id) }}" class="btn btn-success btn-sm">Lihat Kehadiran</a></td>
+                            <td><a href="{{ url('./lihat_absensi/'. $p->id. '/'. $p->idpeserta) }}" class="btn btn-success btn-sm">Lihat Kehadiran</a></td>
                             <td><a href="{{ route('laporan.daftarpeserta', $p->id) }}" class="btn btn-success btn-sm">Lihat Evaluasi</a></td>
                         </tr>
                         @endforeach

@@ -20,18 +20,12 @@ class PesertaController extends Controller
      */
     public function index($id_orangtua = null)
     {
-        if($id_orangtua == null){
-            $peserta = DB::table('peserta')
-            ->join('users', 'users.id','=','peserta.id_orangtua')
-            ->select('peserta.*', 'users.nama as namaorangtua')
-            ->get();
-        }else{
-            $peserta = DB::table('peserta')
-            ->join('users', 'id','=','id_orangtua')
-            ->select('peserta.*', 'users.nama as namaorangtua')
-            ->where('users.id', '=', $id_orangtua)
-            ->get();
-        }
+
+        $peserta = DB::table('peserta')
+        ->join('users', 'users.id','=','peserta.id_orangtua')
+        ->select('peserta.*', 'users.nama as namaorangtua')
+        ->get();
+
         return view('peserta.index', compact('peserta'));
     }
 
